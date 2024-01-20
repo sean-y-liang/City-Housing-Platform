@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-20T02:25:13.035Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0" etag="bu_w_FIkvX6pRhC-40_U" version="22.1.21" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-20T02:25:50.064Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0" etag="qgdQ21fk89cwTPYXUgyk" version="22.1.21" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1114" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -110,7 +110,7 @@
         <mxCell id="Unsx_e9PCj31L5F9Mxkz-2" value="number of people (room)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="_iqlYlecqy5unlglw5hI-13">
           <mxGeometry y="540" width="156" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="_iqlYlecqy5unlglw5hI-66" value="Private kitchen (Y/N)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="_iqlYlecqy5unlglw5hI-13" vertex="1">
+        <mxCell id="_iqlYlecqy5unlglw5hI-66" value="kitchen privileges (Y/N)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="_iqlYlecqy5unlglw5hI-13" vertex="1">
           <mxGeometry y="570" width="156" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_iqlYlecqy5unlglw5hI-29" value="Furniture" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="_iqlYlecqy5unlglw5hI-13" vertex="1">
