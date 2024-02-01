@@ -12,7 +12,7 @@ CREATE TABLE property (
     Monthly_rent int,
     bedroom int,
     bathroom int,
-    parking_No int,
+    parking bool,
     laundry varchar(255),
     fenced_yard bool,
 	Detached varchar(255),
@@ -36,11 +36,11 @@ CREATE TABLE Students (
 
 drop table Rental_Group;
 CREATE TABLE Rental_Group (
-	GID int,
+	GID varchar(4),
 	Preferred_type varchar(255),
 	Bedroom int,
 	Bathroom int,
-	Parking_No int,
+	Parking bool,
 	Laundry varchar(255),
 	Range_lower_bound int,
 	Range_upper_bound int,
@@ -93,52 +93,60 @@ create table Rental_Agreement(
 
 create table Make_Group(
 	UID int,
-    GID int
+    GID varchar(4)
 );
 
 
       
    
 INSERT INTO property (house_name,Address,
-house_type,Monthly_rent,bedroom,bathroom,parking_No,laundry,fenced_yard,Detached,
+house_type,Monthly_rent,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,
 elevator,number_of_people,private_Kitchen,Funiture,date_listed
 )
 VALUES ('334 Kingscourt Ave','334 Kingscourt Ave, # 1, Kingston, ON K7K 4R5',
 'Apartment',2349,
-3,1,1,'Contact manager',false,'yes',
+3,1,true,'shared',false,'yes',
 false,null,true,'yes','2023-11-7');
 
 INSERT INTO property (house_name,Address,
-house_type,Monthly_rent,bedroom,bathroom,parking_No,laundry,fenced_yard,Detached,
+house_type,Monthly_rent,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,
 elevator,number_of_people,private_Kitchen,Funiture,date_listed
 )
 VALUES ('631 Aylmer Cres','631 Aylmer Cres, # 2, Kingston, ON K7M 6K3',
 'Apartment',1899,
-2,1,1,'Contact manager',true,'yes',
+2,1,true,'shared',true,'yes',
 false,null,true,'yes','2023-11-13');
 
 INSERT INTO property (house_name,Address,
-house_type,Monthly_rent,bedroom,bathroom,parking_No,laundry,fenced_yard,Detached,
+house_type,Monthly_rent,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,
 elevator,number_of_people,private_Kitchen,Funiture,date_listed
 )
-VALUES ('136 Chatham St', '136 Chatham St, Kingston, ON K7K 4H4','Apartment',3000,
-2,1,1,'In Unit',true,'yes',
+VALUES ('136 Chatham St', '136 Chatham St, Kingston, ON K7K 4H4',
+'Apartment',3000,
+2,1,true,'ensuite',true,'yes',
 false,null,true,'yes','2024-1-12');
 
 INSERT INTO property (house_name,Address,
-house_type,Monthly_rent,bedroom,bathroom,parking_No,laundry,fenced_yard,Detached,
+house_type,Monthly_rent,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,
 elevator,number_of_people,private_Kitchen,Funiture,date_listed
 )
-VALUES ('1145 Coverdale Dr', '1145 Coverdale Dr, Kingston, ON K7M 8X7','Apartment',3000,
-3,1,1,'In Unit',true,'yes',
+VALUES ('1145 Coverdale Dr', '1145 Coverdale Dr, Kingston, ON K7M 8X7',
+'Apartment',3000,
+3,1,true,'ensuite',true,'yes',
 false,null,true,'yes','2024-1-11');
 
 INSERT INTO property (house_name,Address,
-house_type,Monthly_rent,bedroom,bathroom,parking_No,laundry,fenced_yard,Detached,
+house_type,Monthly_rent,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,
 elevator,number_of_people,private_Kitchen,Funiture,date_listed
 )
-VALUES ('139 Mowat Ave', '139 Mowat Ave, Kingston, ON K7M 1K5','Single Family Residence',2700,
-3,1,1,'Contact manager',true,'yes',
+VALUES ('139 Mowat Ave', '139 Mowat Ave, Kingston, ON K7M 1K5',
+'Single Family Residence',2700,
+3,1,true,'shared',true,'yes',
 false,null,true,'yes','2024-1-4');
 
 UPDATE property
