@@ -1,18 +1,18 @@
 -- Create a new database and use it
-CREATE DATABASE IF NOT EXISTS cisc499;
-USE cisc499;
+CREATE DATABASE IF NOT EXISTS cisc_499;
+USE cisc_499;
 
 -- Drop tables if they exist to prevent errors
-DROP TABLE IF EXISTS Rental_Agreement;
-DROP TABLE IF EXISTS Make_Group;
-DROP TABLE IF EXISTS Picturee_files;
+DROP TABLE IF EXISTS rental_agreement;
+DROP TABLE IF EXISTS make_group;
+DROP TABLE IF EXISTS picture_files;
 DROP TABLE IF EXISTS own;
 DROP TABLE IF EXISTS manage;
 DROP TABLE IF EXISTS manager;
-DROP TABLE IF EXISTS ownr;
-DROP TABLE IF EXISTS Credential;
-DROP TABLE IF EXISTS Rental_Group;
-DROP TABLE IF EXISTS Students;
+DROP TABLE IF EXISTS owner;
+DROP TABLE IF EXISTS credentials;
+DROP TABLE IF EXISTS rental_group;
+DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS property;
 
 CREATE TABLE property (
@@ -34,6 +34,7 @@ CREATE TABLE property (
     Furniture varchar(255),
     date_listed date,
     stats varchar(255) 
+);
 
 CREATE TABLE Students (
     UID varchar(255) PRIMARY KEY,
@@ -46,7 +47,7 @@ CREATE TABLE Students (
     Program varchar(255)
 );
 
-CREATE TABLE Rental_Group (
+CREATE TABLE rental_group (
     GID varchar(4) PRIMARY KEY,
     Preferred_type varchar(255),
     Bedroom int,
@@ -58,13 +59,13 @@ CREATE TABLE Rental_Group (
     accessibility bool
 );
 
-CREATE TABLE Credential (
+CREATE TABLE credentials (
     UID varchar(255) PRIMARY KEY,
     Password_ varchar(255),
     Role_ varchar(255)
 );
 
-CREATE TABLE ownr (
+CREATE TABLE owner (
     OID varchar(255) PRIMARY KEY,
     Fname varchar(255),
     Lname varchar(255),
@@ -93,17 +94,17 @@ CREATE TABLE own (
     OID varchar(255),
     PRIMARY KEY (PID, OID),
     FOREIGN KEY (PID) REFERENCES property (PID),
-    FOREIGN KEY (OID) REFERENCES ownr (OID)
+    FOREIGN KEY (OID) REFERENCES owner (OID)
 );
 
-CREATE TABLE Picture_files (
+CREATE TABLE picture_files (
     PID int,
     File_name varchar(255),
     PRIMARY KEY (PID, File_name),
     FOREIGN KEY (PID) REFERENCES property (PID)
 );
 
-CREATE TABLE Rental_Agreement (
+CREATE TABLE rental_agreement (
     PID int,
     GID varchar(4),
     Sign_Data date,
@@ -112,15 +113,15 @@ CREATE TABLE Rental_Agreement (
     Monthly_rent varchar(255),
     PRIMARY KEY (PID, GID),
     FOREIGN KEY (PID) REFERENCES property (PID),
-    FOREIGN KEY (GID) REFERENCES Rental_Group (GID)
+    FOREIGN KEY (GID) REFERENCES rental_group (GID)
 );
 
-CREATE TABLE Make_Group (
+CREATE TABLE make_group (
     UID varchar(255),
     GID varchar(4),
     PRIMARY KEY (UID, GID),
     FOREIGN KEY (UID) REFERENCES Students (UID),
-    FOREIGN KEY (GID) REFERENCES Rental_Group (GID)
+    FOREIGN KEY (GID) REFERENCES rental_group (GID)
 );
 
 INSERT INTO property (house_name, Address, house_type, Monthly_rent, bedroom, bathroom, parking, laundry, fenced_yard, Detached, elevator, number_of_people, private_Kitchen, Furniture, date_listed)
