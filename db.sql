@@ -36,7 +36,7 @@ CREATE TABLE property (
     stats varchar(255) 
 );
 
-CREATE TABLE Students (
+CREATE TABLE students (
     UID varchar(255) PRIMARY KEY,
     first_name varchar(255),
     last_name varchar(255),
@@ -138,32 +138,32 @@ WHERE house_name = '334 Kingscourt Ave' AND address = '334 Kingscourt Ave, # 1, 
 
 UPDATE property
 SET stats = 'pending'
-WHERE PID=2 OR PID=3 OR PID=4;
+WHERE PID IN (2, 3, 4);
 
 UPDATE property
 SET stats = 'off market'
-WHERE PID=5 OR PID=6;
+WHERE PID IN (5, 6);
 
 DELETE FROM property WHERE PID = 1;
 
 UPDATE property
 SET date_listed = '2023-11-12'
-WHERE PID=5;
+WHERE PID = 5;
 
 UPDATE property
 SET date_listed = '2023-11-12'
-WHERE PID=4;
+WHERE PID = 4;
 
 UPDATE property
 SET date_listed = '2024-1-12'
-WHERE PID=3;
+WHERE PID = 3;
 
 UPDATE property
 SET date_listed = '2024-1-11'
-WHERE PID=2;
+WHERE PID = 2;
 
 UPDATE property
 SET date_listed = '2023-11-7'
-WHERE PID=1;
+WHERE PID = 1;
 
 SELECT * FROM property;
