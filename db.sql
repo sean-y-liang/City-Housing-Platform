@@ -126,44 +126,9 @@ CREATE TABLE make_group (
 
 INSERT INTO property (house_name, address, house_type, monthly_rent, bedrooms, bathrooms, parking, laundry, fenced_yard, detached_or_semi, elevator, number_of_people, private_kitchen, furniture, date_listed)
 VALUES
-('334 Kingscourt Ave', '334 Kingscourt Ave, # 1, Kingston, ON K7K 4R5', 'Apartment', 2349, 3, 1, true, 'shared', false, 'yes', false, NULL, true, 'bed, desk, chair', '2023-11-7'),
-('631 Aylmer Cres', '631 Aylmer Cres, # 2, Kingston, ON K7M 6K3', 'Apartment', 1899, 2, 1, true, 'shared', true, 'yes', false, NULL, true, 'bed, desk, chair', '2023-11-13'),
-('136 Chatham St', '136 Chatham St, Kingston, ON K7K 4H4', 'Apartment', 3000, 2, 1, true, 'ensuite', true, 'yes', false, NULL, true, 'bed, desk, chair', '2024-1-12'),
-('1145 Coverdale Dr', '1145 Coverdale Dr, Kingston, ON K7M 8X7', 'Apartment', 3000, 3, 1, true, 'ensuite', true, 'yes', false, NULL, true, 'bed, desk, chair', '2024-1-11'),
-('139 Mowat Ave', '139 Mowat Ave, Kingston, ON K7M 1K5', 'Single Family Residence', 2700, 3, 1, true, 'shared', true, 'yes', false, NULL, true, 'bed, desk, chair', '2024-1-4');
+('Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'Apartment', 6600, 6, 2, false, 'In Unit', false, 'Detached', false, 6, true, 'Bed frames, living room sofa, dining table, chairs', '2023-11-7'),
+('Cozy room across from the pier', '42 Beverley St, Unit #3, Kingston, ON K7L 3Y4', 'Single Family Residence', 1195, 4, 1, true, 'In Unit', false, 'Detached', false, 1, true, 'Bed, desk', '2023-11-13'),
+('One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'Single Family Residence', 1127, 8 4, true, 'Shared', true, 'Detached', false, 1, false, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-1-12'),
+('Newly renovated apartment', '630 Princess St, Kingston, ON K7L 1E3', 'Apartment', 2200, 2, 1, true, 'In unit', false, 'Semi', true, 2, true, 'None', '2024-1-11'),
+('Clean, modern, private room ', '487 Brock St, Kingston, ON K7L 1T7', 'Townhouse', 750, 7, 3, true, 'Shared', false, 'Semi', false, 1, false, 'Bed, desk, chair, dressers, nighstand, lamp', '2024-2-11'),
 
-UPDATE property
-SET stats = 'on market'
-WHERE house_name = '334 Kingscourt Ave' AND address = '334 Kingscourt Ave, # 1, Kingston, ON K7K 4R5';
-
-UPDATE property
-SET stats = 'pending'
-WHERE PID IN (2, 3, 4);
-
-UPDATE property
-SET stats = 'off market'
-WHERE PID IN (5, 6);
-
-DELETE FROM property WHERE PID = 1;
-
-UPDATE property
-SET date_listed = '2023-11-12'
-WHERE PID = 5;
-
-UPDATE property
-SET date_listed = '2023-11-12'
-WHERE PID = 4;
-
-UPDATE property
-SET date_listed = '2024-1-12'
-WHERE PID = 3;
-
-UPDATE property
-SET date_listed = '2024-1-11'
-WHERE PID = 2;
-
-UPDATE property
-SET date_listed = '2023-11-7'
-WHERE PID = 1;
-
-SELECT * FROM property;
