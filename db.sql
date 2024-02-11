@@ -128,7 +128,6 @@ INSERT INTO property (house_name, address, house_type, monthly_rent, bedrooms, b
 VALUES
 ('Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'Apartment', 6600, 6, 2, false, 'In Unit', false, 'Detached', false, 6, true, 'Bed frames, living room sofa, dining table, chairs', '2023-11-7'),
 ('Cozy room across from the pier', '42 Beverley St, Unit #3, Kingston, ON K7L 3Y4', 'Single Family Residence', 1195, 4, 1, true, 'In Unit', false, 'Detached', false, 1, true, 'Bed, desk', '2023-11-13'),
-('One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'Single Family Residence', 1127, 8 4, true, 'Shared', true, 'Detached', false, 1, false, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-1-12'),
+('One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'Single Family Residence', 1127, 8, 4, true, 'Shared', true, 'Detached', false, 1, false, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-1-12'),
 ('Newly renovated apartment', '630 Princess St, Kingston, ON K7L 1E3', 'Apartment', 2200, 2, 1, true, 'In unit', false, 'Semi', true, 2, true, 'None', '2024-1-11'),
-('Clean, modern, private room ', '487 Brock St, Kingston, ON K7L 1T7', 'Townhouse', 750, 7, 3, true, 'Shared', false, 'Semi', false, 1, false, 'Bed, desk, chair, dressers, nighstand, lamp', '2024-2-11'),
-
+('Clean, modern, private room', '487 Brock St, Kingston, ON K7L 1T7', 'Townhouse', 750, 7, 3, true, 'Shared', false, 'Semi', false, 1, false, 'Bed, desk, chair, dressers, nightstand, lamp', '2024-2-11');
