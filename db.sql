@@ -191,3 +191,35 @@ VALUES
 (5, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/487%20Brock%20St/379718227_7309960195710540_1459522285989104945_n.jpg'),
 (5, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/487%20Brock%20St/382483427_7111415975544483_3438644587236511192_n.jpg'),
 (5, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/487%20Brock%20St/385796637_6546613352102540_3582619407499888739_n.jpg');
+
+-- add 5 sample students looking for rent.
+-- 630 Princess St
+INSERT INTO pictures (PID, file_name)
+VALUES
+(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/406925344_7073332062747614_1970589403061136666_n.jpg'),
+(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/419600980_7389577927767799_4511443589162453861_n.jpg'),
+(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/420536280_7014564711971368_7989907287922750493_n.jpg'),
+(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/422227455_7215618161863603_5997401127060306447_n.jpg'),
+(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/422693232_6778460868932277_5732882240215386565_n.jpg');
+
+SELECT * FROM property;
+
+INSERT INTO students VALUES
+('aa000', 'abc', 'ABC', '3433433433', '1 Sample Street, Kingston, ON', 20240213, (STR_TO_DATE('20270501'), 'Program0'),
+('aa001', 'abd', 'ABD', '3433433434', '2 Sample Street, Kingston, ON', 20240214, (STR_TO_DATE('20270501'), 'Program1'),
+('aa002', 'abe', 'ABE', '3433433435', '3 Sample Street, Kingston, ON', 20240215, (STR_TO_DATE('20270501'), 'Program2'),
+('aa003', 'abf', 'ABF', '3433433436', '4 Sample Street, Kingston, ON', 20240216, (STR_TO_DATE('20270501'), 'Program3'),
+('aa004', 'abg', 'ABG', '3433433437', '5 Sample Street, Kingston, ON', 20240217, (STR_TO_DATE('20270501'), 'Program4');
+
+-- add 2 sample groups of the previous 5 students with their requirements of rental features.
+INSERT INTO rental_group VALUES
+('0000', 'apartment', 2, 2, NO, 'ensuite', NULL, NULL, NO),
+('0001', 'house', 3, 1, YES, 'shared', NULL, NULL, YES);
+
+-- group the previous 5 students into 2 groups.
+INSERT INTO make_group VALUES
+('aa000', '0000'),
+('aa001', '0000'),
+('aa002', '0001'),
+('aa003', '0001'),
+('aa004', '0001');
