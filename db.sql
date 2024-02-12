@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS property;
 
 CREATE TABLE property (
     PID int NOT NULL AUTO_INCREMENT primary key,
-    house_name varchar(255),
+    listing_name varchar(255),
     address varchar(255),
     house_type varchar(255),
     monthly_rent decimal,
@@ -27,13 +27,13 @@ CREATE TABLE property (
     laundry varchar(255),
     fenced_yard bool,
     detached_or_semi varchar(255),
-    floors int,
+    floor_number int,
     elevator bool,
-    number_of_people int,
+    number_of_offered_rooms int,
     private_kitchen bool,
     furniture varchar(255),
     date_listed date,
-    stats varchar(255) 
+    status varchar(255) 
 );
 
 CREATE TABLE students (
@@ -124,14 +124,13 @@ CREATE TABLE make_group (
     FOREIGN KEY (GID) REFERENCES rental_group (GID)
 );
 
-INSERT INTO property (house_name, address, house_type, monthly_rent, bedrooms, bathrooms, parking, laundry, fenced_yard, detached_or_semi, elevator, number_of_people, private_kitchen, furniture, date_listed)
+INSERT INTO property (listing_name, address, house_type, monthly_rent, bedrooms, bathrooms, parking, laundry, fenced_yard, detached_or_semi, floor_number, elevator, number_of_offered_rooms, private_kitchen, furniture, date_listed, status)
 VALUES
-('Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'Apartment', 6600, 6, 2, false, 'In Unit', false, 'Detached', false, 6, true, 'Bed frames, living room sofa, dining table, chairs', '2023-11-7'),
-('Cozy room across from the pier', '42 Beverley St, Unit #3, Kingston, ON K7L 3Y4', 'Single Family Residence', 1195, 4, 1, true, 'In Unit', false, 'Detached', false, 1, true, 'Bed, desk', '2023-11-13'),
-('One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'Single Family Residence', 1127, 8, 4, true, 'Shared', true, 'Detached', false, 1, false, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-1-12'),
-('Newly renovated apartment', '630 Princess St, Kingston, ON K7L 1E3', 'Apartment', 2200, 2, 1, true, 'In unit', false, 'Semi', true, 2, true, 'None', '2024-1-11'),
-('Clean, modern, private room', '487 Brock St, Kingston, ON K7L 1T7', 'Townhouse', 750, 7, 3, true, 'Shared', false, 'Semi', false, 1, false, 'Bed, desk, chair, dressers, nightstand, lamp', '2024-2-11');
-
+('Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'Apartment', 6600, 6, 2.5, false, 'In Unit', NULL, NULL, 2, false, 6, true, 'Bed frames, living room sofa, dining table, chairs', '2023-11-7', "Available"),
+('Cozy room across from the pier', '42 Beverley St, Unit #3, Kingston, ON K7L 3Y4', 'Single Family Residence', 1195, 4, 1, true, 'In Unit', false, 'Detached', NULL, NULL, 1, true, 'Bed, desk', '2023-11-13', "Available"),
+('One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'Single Family Residence', 1127, 8, 4, true, 'Shared', true, 'Detached', NULL, NULL, 1, false, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-1-12', "Available"),
+('Newly renovated apartment', '630 Princess St, Kingston, ON K7L 1E3', 'Apartment', 2200, 2, 1, true, 'In unit', NULL, NULL, 5, true, 2, true, 'None', '2024-1-11', "Available"),
+('Clean, modern, private room', '487 Brock St, Kingston, ON K7L 1T7', 'Townhouse', 750, 7, 3, true, 'Shared', false, 'Semi', NULL, NULL, 1, false, 'Bed, desk, chair, dressers, nightstand, lamp', '2024-2-11', "Available");
 
 -- Insert pictures for properties
 -- 39 Ellerbeck St
@@ -151,46 +150,46 @@ VALUES
 -- 42 Beverley St, Unit #3
 INSERT INTO pictures (PID, file_name)
 VALUES
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420539590_341553988787497_5043197548815890386_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420537612_341553868787509_7541008154464351356_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420539778_341553975454165_1857321005508351790_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420538353_341553955454167_1219281069889944169_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420539241_341553945454168_3488689691358054556_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420539781_341554048787491_3922784051304451867_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420540441_341554002120829_6367095456849384089_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420542874_341553865454176_6224725072827078646_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420563041_341554042120825_1184932731889740600_n.jpg'),
-(2, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/42%20Beverley%20St/420956279_341553932120836_6510065877131399546_n.jpg');
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420539590_341553988787497_5043197548815890386_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420537612_341553868787509_7541008154464351356_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420539778_341553975454165_1857321005508351790_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420538353_341553955454167_1219281069889944169_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420539241_341553945454168_3488689691358054556_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420539781_341554048787491_3922784051304451867_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420540441_341554002120829_6367095456849384089_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420542874_341553865454176_6224725072827078646_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420563041_341554042120825_1184932731889740600_n.jpg'),
+(2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/42%20Beverley%20St/420956279_341553932120836_6510065877131399546_n.jpg');
 
 
 -- 163 Union St
 INSERT INTO pictures (PID, file_name)
 VALUES
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/405506539_7206397782750245_3790921527991629855_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/410596409_24480086364968419_3265162272506884298_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/416996070_25577993245133194_1743908844713870305_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/417028973_25668335872750715_4449124194916932334_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/417084145_7249316455120623_6446019478767462285_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/417084250_6992847394143525_9143039459607559308_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/417125274_24767317229548693_3469006524305408163_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/417159084_6787832141346575_3315687504344718260_n.jpg'),
-(3, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/163%20Union%20St/417264501_6948240728623598_814383685964250920_n.jpg');
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/405506539_7206397782750245_3790921527991629855_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/410596409_24480086364968419_3265162272506884298_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/416996070_25577993245133194_1743908844713870305_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/417028973_25668335872750715_4449124194916932334_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/417084145_7249316455120623_6446019478767462285_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/417084250_6992847394143525_9143039459607559308_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/417125274_24767317229548693_3469006524305408163_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/417159084_6787832141346575_3315687504344718260_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/163%20Union%20St/417264501_6948240728623598_814383685964250920_n.jpg');
 
 -- 630 Princess St
 INSERT INTO pictures (PID, file_name)
 VALUES
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/406925344_7073332062747614_1970589403061136666_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/419600980_7389577927767799_4511443589162453861_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/420536280_7014564711971368_7989907287922750493_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/422227455_7215618161863603_5997401127060306447_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/422693232_6778460868932277_5732882240215386565_n.jpg');
+(4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/630%20Princess%20St/406925344_7073332062747614_1970589403061136666_n.jpg'),
+(4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/630%20Princess%20St/419600980_7389577927767799_4511443589162453861_n.jpg'),
+(4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/630%20Princess%20St/420536280_7014564711971368_7989907287922750493_n.jpg'),
+(4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/630%20Princess%20St/422227455_7215618161863603_5997401127060306447_n.jpg'),
+(4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/630%20Princess%20St/422693232_6778460868932277_5732882240215386565_n.jpg');
 
 -- 487 Brock St
 INSERT INTO pictures (PID, file_name)
 VALUES
-(5, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/487%20Brock%20St/379718227_7309960195710540_1459522285989104945_n.jpg'),
-(5, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/487%20Brock%20St/382483427_7111415975544483_3438644587236511192_n.jpg'),
-(5, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/487%20Brock%20St/385796637_6546613352102540_3582619407499888739_n.jpg');
+(5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/487%20Brock%20St/379718227_7309960195710540_1459522285989104945_n.jpg'),
+(5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/487%20Brock%20St/382483427_7111415975544483_3438644587236511192_n.jpg'),
+(5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/487%20Brock%20St/385796637_6546613352102540_3582619407499888739_n.jpg');
 
 -- add 5 sample students looking for rent.
 -- 630 Princess St
