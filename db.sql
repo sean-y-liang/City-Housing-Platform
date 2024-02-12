@@ -20,9 +20,9 @@ CREATE TABLE property (
     listing_name varchar(255),
     address varchar(255),
     house_type varchar(255),
-    monthly_rent decimal,
+    monthly_rent int,
     bedrooms int,
-    bathrooms decimal,
+    bathrooms DECIMAL(4, 1),
     parking bool,
     laundry varchar(255),
     fenced_yard bool,
@@ -42,8 +42,8 @@ CREATE TABLE students (
     last_name varchar(255),
     phone_number varchar(255),
     address varchar(255),
-    student_id int,
-    year_of_graduation date,
+    student_id bigint,
+    year_of_graduation int,
     program varchar(255)
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE rental_group (
     GID varchar(4) PRIMARY KEY,
     preferred_type varchar(255),
     bedrooms int,
-    bathrooms decimal,
+    bathrooms DECIMAL(4, 1),
     parking bool,
     laundry varchar(255),
     range_lower_bound int,
@@ -82,7 +82,7 @@ CREATE TABLE manager (
 CREATE TABLE manage (
     PID int,
     phone_number varchar(255),
-    start_year date,
+    start_year int,
     end_date date,
     PRIMARY KEY (PID, phone_number),
     FOREIGN KEY (PID) REFERENCES property (PID),
@@ -194,16 +194,16 @@ VALUES
 
 -- add 5 sample students looking for rent.
 INSERT INTO students VALUES
-('aa000', 'abc', 'ABC', '3433433433', '1 Sample Street, Kingston, ON', 20240213, (STR_TO_DATE('20270501'), 'Program0'),
-('aa001', 'abd', 'ABD', '3433433434', '2 Sample Street, Kingston, ON', 20240214, (STR_TO_DATE('20270501'), 'Program1'),
-('aa002', 'abe', 'ABE', '3433433435', '3 Sample Street, Kingston, ON', 20240215, (STR_TO_DATE('20270501'), 'Program2'),
-('aa003', 'abf', 'ABF', '3433433436', '4 Sample Street, Kingston, ON', 20240216, (STR_TO_DATE('20270501'), 'Program3'),
-('aa004', 'abg', 'ABG', '3433433437', '5 Sample Street, Kingston, ON', 20240217, (STR_TO_DATE('20270501'), 'Program4');
+('aa000', 'abc', 'ABC', '3433433433', '1 Sample Street, Kingston, ON', 20240213, 2024, 'Computing'),
+('aa001', 'abd', 'ABD', '3433433434', '2 Sample Street, Kingston, ON', 20240214, 2025, 'Health Science'),
+('aa002', 'abe', 'ABE', '3433433435', '3 Sample Street, Kingston, ON', 20240215, 2026, 'Commerce'),
+('aa003', 'abf', 'ABF', '3433433436', '4 Sample Street, Kingston, ON', 20240216, 2028, 'Engineering'),
+('aa004', 'abg', 'ABG', '3433433437', '5 Sample Street, Kingston, ON', 20240217, 2027, 'Nursing');
 
 -- add 2 sample groups of the previous 5 students with their requirements of rental features.
 INSERT INTO rental_group VALUES
-('0000', 'apartment', 2, 2, NO, 'ensuite', NULL, NULL, NO),
-('0001', 'house', 3, 1, YES, 'shared', NULL, NULL, YES);
+('0000', 'apartment', 2, 2, 0, 'ensuite', NULL, NULL, 0),
+('0001', 'house', 3, 1, 1, 'shared', NULL, NULL, 1);
 
 -- group the previous 5 students into 2 groups.
 INSERT INTO make_group VALUES
