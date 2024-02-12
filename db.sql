@@ -124,6 +124,7 @@ CREATE TABLE make_group (
     FOREIGN KEY (GID) REFERENCES rental_group (GID)
 );
 
+-- Insert properties
 INSERT INTO property (listing_name, address, house_type, monthly_rent, bedrooms, bathrooms, parking, laundry, fenced_yard, detached_or_semi, floor_number, elevator, number_of_offered_rooms, private_kitchen, furniture, date_listed, status)
 VALUES
 ('Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'Apartment', 6600, 6, 2.5, false, 'In Unit', NULL, NULL, 2, false, 6, true, 'Bed frames, living room sofa, dining table, chairs', '2023-11-7', "Available"),
@@ -192,17 +193,6 @@ VALUES
 (5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/pictures/487%20Brock%20St/385796637_6546613352102540_3582619407499888739_n.jpg');
 
 -- add 5 sample students looking for rent.
--- 630 Princess St
-INSERT INTO pictures (PID, file_name)
-VALUES
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/406925344_7073332062747614_1970589403061136666_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/419600980_7389577927767799_4511443589162453861_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/420536280_7014564711971368_7989907287922750493_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/422227455_7215618161863603_5997401127060306447_n.jpg'),
-(4, 'https://github.com/elaine-wu-02/CISC499_housing_P/blob/main/pictures/630%20Princess%20St/422693232_6778460868932277_5732882240215386565_n.jpg');
-
-SELECT * FROM property;
-
 INSERT INTO students VALUES
 ('aa000', 'abc', 'ABC', '3433433433', '1 Sample Street, Kingston, ON', 20240213, (STR_TO_DATE('20270501'), 'Program0'),
 ('aa001', 'abd', 'ABD', '3433433434', '2 Sample Street, Kingston, ON', 20240214, (STR_TO_DATE('20270501'), 'Program1'),
