@@ -1,5 +1,6 @@
 // assume ID is the ID of user. student or owner.
-
+const express= require('express');
+const app = express();
 const sqlite3 = require('sqlite3').verbose();
 
 let db = new sqlite3.Database('./HousingPDB.db', (err) => {
@@ -36,8 +37,6 @@ db.run('CREATE TABLE IF NOT EXISTS students (' +
     'gradYear INTEGER, ' +
     'program TEST)');
 
-db.run('INSERT TO students')
-
 
 function generateRandomUID() {
     const letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -54,12 +53,45 @@ function generateRandomUID() {
 function generateUniqueUID(existingIDs) {
     let uniqueUID = generateRandomUID();
     while (existingID.indcludes(uniqueUID)) {
-        uniqueID = generateRandomID();
+        uniqueUID = generateRandomUID();
     }
     return uniqueUID;
 }
 
-app.post('/Signup', (req, res) => {
+app.post('/Login-Student', () => {
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+
+    fetch('/Login-Student', {
+        method: 'POST', bodyheaders: {
+            'content-Type': 'application/json',
+        },
+        body: JSON. stringify({
+            phone: phone,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Successfully log in.');
+        } else{
+            alert('Fail to log in' + data.message);
+        }
+    })
+    .catch((error) => {
+        console.error('Login request fail:', error);
+    })
+    .then(response => {
+        if(response.ok) {
+            window.location.href = '/Student-Elaine.html';
+            let UID = db.query('SELECT uid FROM students where students.phone=phone and students.password=password')
+        }
+    });
+})
+
+
+app.post('/Signup-Student', (req, res) => {
     let existingUID = [];
     db.each('SELECT uid FROM students', [], (err, row) => {
         if (err){
@@ -67,14 +99,14 @@ app.post('/Signup', (req, res) => {
             return;
         }
         existingUID.push(row.uid);
-    }, (err, numRows) => {
+    }, (err) => {
         if (err) {
             console.error(err.message);
             return;
         }
     })
-    let UID = generateUniqueUID(existingUID)
-    const { uid, fName, lName, phone, password } = req.body;
+    let uid = generateUniqueUID(existingUID)
+    const { fName, lName, phone, password } = req.body;
     const stmt = db.prepare("INSERT INTO students (UID, fName, lName, phone, password)")
     stmt.run(uid, fName, lName, phone, password, function(err) {
         if (err) {
@@ -82,17 +114,16 @@ app.post('/Signup', (req, res) => {
         } else {
             res.json({ message: "Student registered successfully." })
         }
-    })
-})
+    });
+    stmt.finalize()
+    .then(response => {
+        if(response.ok) {
+            window.location.href = '/Student-Elaine.html';
+        }
+    });
+});
 
-function isFirstLetter(str) {
-    return /^[a-zA-Z]/.test(str);
-}
+app.get('/Student-Elaine.html', (req, res) => {
+    student = students.filter_by(uid=UID)
+});
 
-if (isFirstLetter(ID)){
-
-}
-
-document.getElementById('personalInfo')
-
-document.addEventListener()
