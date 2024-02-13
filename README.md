@@ -17,7 +17,7 @@ Navigate to the backend directory.
 ### Database setup
 If not yet created, create the database on your local machine using the provided db.sql script. Remember your username (default: root) and password.
 
-In server/database.sql, edit the 'user' and 'password' fields according to your database configuration.
+In server/database.sql, edit the 'user' and 'password' fields according to your set credentials.
 
 ## Running the Node Server
 Start the node server.
