@@ -9,9 +9,9 @@ This current backend serves as the data management and API layer for providing e
 - npm for managing packages
   
 ### Installing the npm packages
-1. Navigate to the backend directory.
-2. >sudo npm install
-3. >npm install express cors mysql2
+Navigate to the backend directory.
+>sudo npm install
+>npm install express cors mysql2
 
 ### Database setup
 If not yet created, create the database on your local machine using the provided db.sql script. Remember your username (default: root) and password.
