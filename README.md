@@ -18,7 +18,7 @@ If not yet created, create the database on your local machine using the provided
 
 In server/database.sql, edit the 'user' and 'password' fields according to your database configuration.
 
-### Running the node server
+## Running the Node Server
 Start the node server.
 >node app.js
 The node application will begin listening for requests.
