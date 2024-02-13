@@ -21,6 +21,7 @@ In server/database.sql, edit the 'user' and 'password' fields according to your 
 ## Running the Node Server
 Start the node server.
 >node app.js
+
 The node application will begin listening for requests.
 
 ## API Documentation
