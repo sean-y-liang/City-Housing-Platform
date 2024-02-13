@@ -11,6 +11,7 @@ This current backend serves as the data management and API layer for providing e
 ### Installing the npm packages
 Navigate to the backend directory.
 >sudo npm install
+
 >npm install express cors mysql2
 
 ### Database setup
