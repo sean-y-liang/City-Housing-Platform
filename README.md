@@ -13,21 +13,17 @@ This current backend serves as the data management and API layer for providing e
 2. >sudo npm install
 3. >npm install express cors mysql2
 
-If not yet created, create the database on your local machine using the provided db.sql script.
+### Database setup
+If not yet created, create the database on your local machine using the provided db.sql script. Remember your username (default: root) and password.
 
-In server/database.sql, edit the configuration fields according to your database setup:
+In server/database.sql, edit the 'user' and 'password' fields according to your database configuration.
 
-  host: 'localhost',
-  user: 'root', // Change this to the username you set when creating the db on your machine
-  password: 'housingmatch', // Change this to the password you set when creating the db on your machine
-  database: 'cisc_499', 
-
-Start the node server:
+### Running the node server
+Start the node server.
 >node app.js
+The node application will begin listening for requests.
 
 ## API Documentation
-
 ### Endpoints
-
 - **GET /api/properties**: Fetches all property listings.
 - **GET /api/pictures/{pid}**: Fetches all pictures for a property with the given PID.
