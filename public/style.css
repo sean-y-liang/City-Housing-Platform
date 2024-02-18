@@ -2,11 +2,12 @@
 body,
 html {
     height: 100vh;
+    overflow-y: hidden;
+    /* Hide vertical overflow */
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #fafafa;
-    overflow: hidden;
     padding-top: 120px;
 }
 
@@ -14,7 +15,7 @@ html {
 #map,
 #property-images {
     position: absolute;
-    top: 120px;
+    top: 80px;
     right: 0;
     bottom: 0;
     left: 25%;
@@ -23,10 +24,10 @@ html {
 }
 
 .sidebar {
-    height: calc(100% - 120px);
+    height: calc(100% - 80px);
     width: 25%;
     position: fixed;
-    top: 120px;
+    top: 80px;
     left: 0;
     background-color: #ffffff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -42,12 +43,11 @@ html {
     bottom: 0;
     left: 25%;
     overflow-y: auto;
-    /* Enable scrolling for overflow content */
+    padding: 10px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 10px;
-    padding: 10px;
-    box-sizing: border-box;
+    align-items: start;
 }
 
 .property-image {
@@ -57,15 +57,6 @@ html {
     border-radius: 4px;
 }
 
-/* Ensure no scrolling on main map page */
-#map {
-    overflow: hidden;
-}
-
-/* Allow scrolling in picture viewer only if content overflows */
-#property-images {
-    overflow-y: auto;
-}
 
 /* Layout Adjustments */
 #map,
@@ -90,35 +81,19 @@ html {
     box-sizing: border-box;
 }
 
-/* Base Styles for Navigation Buttons */
 .nav-button {
-    background-color: #ffffff;
-    color: #333;
-    padding: 12px 24px;
-    border: 2px solid #007bff;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    margin: 0 12px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Hover and Focus Styles for Buttons */
-.nav-button:hover,
-.nav-button:focus {
     background-color: #007bff;
     color: #ffffff;
-    border-color: #0056b3;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
 }
 
 .nav-button:hover {
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: #0056b3;
 }
 
 /* Adjustments for Items in the Top Navigation Bar */
@@ -127,6 +102,7 @@ html {
     display: flex;
     align-items: center;
 }
+
 
 .nav-logo {
     position: absolute;
@@ -137,19 +113,6 @@ html {
     text-align: center;
     font-size: larger;
     margin: 0 20px;
-}
-
-/* Navigation Logo */
-.nav-logo img {
-    height: 60px;
-    width: auto;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.nav-logo img:hover {
-    transform: scale(1.1);
-    /* Slightly enlarge logo on hover */
 }
 
 /* Typography */
@@ -262,7 +225,6 @@ button:hover {
         padding: 0.5rem;
     }
 
-
     .picture-viewer-container {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
@@ -315,3 +277,4 @@ button:hover {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
 }
+

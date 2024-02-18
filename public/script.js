@@ -1,8 +1,6 @@
 let map;
 let propertyDetailMap;
 let propertiesDataGlobal;
-let isMainMapViewActive = true;
-
 
 async function geocodeAddress(address) {
     const geocoder = new google.maps.Geocoder();
@@ -15,14 +13,6 @@ async function geocodeAddress(address) {
                 reject('Geocode was not successful for the following reason: ' + status);
             }
         });
-    });
-}
-
-function createMarker(lat, lng, title, map) {
-    return new google.maps.Marker({
-        position: { lat, lng },
-        map: map,
-        title: title,
     });
 }
 
@@ -49,11 +39,14 @@ async function initMap() {
             property.pictures = picturesData.map((picture) => picture.file_name);
 
             const { lat, lng } = await geocodeAddress(property.address);
-            const marker = createMarker(lat, lng, property.listing_name, map);
-
+            const marker = new google.maps.Marker({
+                position: { lat, lng },
+                map: map,
+                title: property.house_name,
+            });
 
             const infoWindow = new google.maps.InfoWindow({
-                content: `<div><strong>${property.listing_name}</strong><br>${property.address}<br>$${property.monthly_rent} / month</div>`,
+                content: `<div><strong>${property.house_name}</strong><br>${property.address}<br>$${property.monthly_rent} / month</div>`,
             });
 
             marker.addListener('mouseover', () => infoWindow.open(map, marker));
@@ -67,7 +60,6 @@ async function initMap() {
         populateSidebarWithPropertyModules(propertiesData);
     } catch (error) {
         console.error('Error fetching properties:', error);
-        alert('An error occurred: ' + error.message);
     }
 }
 
@@ -79,6 +71,7 @@ function updateImageGallery(pictures, title) {
     imagesContainer.style.display = 'grid';
     imagesContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
     imagesContainer.style.gap = '25px';
+    imagesContainer.style.paddingRight = '25px'; 
 
     pictures.forEach((pictureUrl, index) => {
         const anchor = document.createElement('a');
@@ -98,17 +91,15 @@ function updateImageGallery(pictures, title) {
     initializeFancybox();
 }
 
-
 function initializeFancybox() {
     $('[data-fancybox="gallery"]').fancybox({
         thumbs: { autoStart: true },
-        buttons: ['fullScreen', 'thumbs', 'close'],
+        buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
         animationEffect: 'zoom',
     });
 }
 
 function populateSidebarWithPropertyModules(propertiesData) {
-    isMainMapViewActive = true; 
     const sidebar = document.getElementById('sidebar');
     sidebar.innerHTML = '';
     toggleNavButtons(false);
@@ -154,17 +145,14 @@ function toggleNavButtons(isDetailView) {
 }
 
 async function displayPropertyDetails(property) {
-    history.pushState({ level: 'details', property: property }, property.listing_name);
-    isMainMapViewActive = false;
     toggleNavButtons(true);
     document.getElementById('map').style.display = 'none';
 
     const imagesContainer = document.getElementById('property-images');
     imagesContainer.className = 'visible';
     imagesContainer.style.display = 'block';
-    imagesContainer.scrollTop = 0; // Reset scroll position
 
-    updateImageGallery(property.pictures, property.listing_name);
+    updateImageGallery(property.pictures, property.house_name);
 
     initializeFancybox();
 
@@ -173,12 +161,10 @@ async function displayPropertyDetails(property) {
         <h2>${property.listing_name}</h2>
         <p>Address: ${property.address}</p>
         <p>Monthly Rent: $${property.monthly_rent}</p>
-        <p>Bedrooms: ${property.bedrooms}</p>
-        <p>Bathrooms: ${property.bathrooms}</p>
-        <p>Parking: ${property.parking ? 'Yes' : 'No'}</p>
-        <p>Laundry: ${property.laundry}</p>
+        <p>Bedrooms: ${property.bedrooms}, Bathrooms: ${property.bathrooms}</p>
+        <p>Parking: ${property.parking ? 'Yes' : 'No'}, Laundry: ${property.laundry}</p>
         <p>Furniture: ${property.furniture}</p>
-        <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p> 
+        <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p> // Display the listed date in a user-friendly format
         <p>Status: ${property.status}</p>
     `;
 
@@ -196,7 +182,11 @@ async function displayPropertyDetails(property) {
             fullscreenControl: false,
         });
 
-        const marker = createMarker(lat, lng, property.listing_name, propertyDetailMap);
+        new google.maps.Marker({
+            position: { lat, lng },
+            map: propertyDetailMap,
+            title: property.house_name,
+        });
 
         if (map) {
             map.panTo(new google.maps.LatLng(lat, lng));
@@ -206,50 +196,7 @@ async function displayPropertyDetails(property) {
         }
     } catch (error) {
         console.error('Error geocoding address:', error);
-        alert('An error occurred: ' + error.message);
     }
 }
 
 window.addEventListener('load', initMap);
-
-// Handle browser back and forward buttons
-window.addEventListener('popstate', function (event) {
-    if (!event.state || event.state.level !== 'fancybox') {
-        document.getElementById('map').style.display = 'block';
-        document.getElementById('property-images').style.display = 'none';
-        if (propertyDetailMap) {
-            const propertyMapContainer = document.getElementById('property-location-map');
-            if (propertyMapContainer) propertyMapContainer.style.display = 'none';
-        }
-        populateSidebarWithPropertyModules(propertiesDataGlobal);
-    }
-});
-
-document.querySelector('.nav-logo img').addEventListener('click', function () {
-    if (!isMainMapViewActive) {
-        // Reset the view to the main map if we are not already there
-        initMap();
-        populateSidebarWithPropertyModules(propertiesDataGlobal);
-        document.getElementById('map').style.display = 'block';
-        document.getElementById('property-images').style.display = 'none';
-        if (propertyDetailMap) {
-            const propertyMapContainer = document.getElementById('property-location-map');
-            propertyMapContainer.style.display = 'none';
-        }
-        isMainMapViewActive = true;
-        history.pushState(null, 'Main Map', '/');
-    }
-    // If already on the main map view, clicking the logo does nothing
-});
-
-// Adjust the window.popstate event listener if necessary to manage isMainMapViewActive
-window.addEventListener('popstate', function (event) {
-    // Check if the popstate event is triggered by closing Fancybox or navigating between views
-    if (event.state && event.state.level === 'details') {
-        displayPropertyDetails(event.state.property);
-    } else {
-        populateSidebarWithPropertyModules(propertiesDataGlobal);
-        isMainMapViewActive = true;
-    }
-});
-
