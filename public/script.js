@@ -29,7 +29,7 @@ function createMarker(lat, lng, title, map) {
 async function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 44.22543338265272, lng: -76.49516120688114 }, // Queen's University coordinates
-        zoom: 13,
+        zoom: 15,
     });
 
     try {
@@ -178,7 +178,7 @@ async function displayPropertyDetails(property) {
         <p>Parking: ${property.parking ? 'Yes' : 'No'}</p>
         <p>Laundry: ${property.laundry}</p>
         <p>Furniture: ${property.furniture}</p>
-        <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p> // Display the listed date in a user-friendly format
+        <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p> 
         <p>Status: ${property.status}</p>
     `;
 
