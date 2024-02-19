@@ -1,6 +1,11 @@
 # CISC499_housing_P
 CISC 499 capstone project: City of Kingston Housing Match (Prof. Wendy Powley)
 
+## Frontend Setup
+
+### Google Maps API
+Replace the key in index.html with your Google Maps API key.
+
 ## Backend Setup
 This current backend serves as the data management and API layer for providing endpoints to access property details and associated images.
 
