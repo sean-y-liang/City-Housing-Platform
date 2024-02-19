@@ -149,29 +149,60 @@ html {
 
 .nav-logo img:hover {
     transform: scale(1.1);
-    /* Slightly enlarge logo on hover */
 }
 
 /* Typography */
-h2,
-h3 {
-    color: #333;
-    margin: 0.5rem 0;
+h2, h3, p {
+    margin: 10px 0;
 }
 
 h2 {
-    font-size: 24px;
+    color: #333; 
+    font-size: 28px; 
+    margin-bottom: 20px; 
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 20px;
+    color: #444;
 }
 
 p {
-    color: #666;
-    font-size: 14px;
-    line-height: 1.6;
-    margin: 0.5rem 0;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Detail Item Styling */
+.detail-item {
+    margin-bottom: 15px; 
+}
+
+.detail-item h3 {
+    font-size: 20px; 
+    color: #444; 
+    margin-bottom: 5px; 
+}
+
+.detail-item p {
+    font-size: 16px; 
+    color: #666; 
+    line-height: 1.5; 
+}
+
+/* Lists */
+ul {
+    padding-left: 20px; 
+}
+
+li {
+    margin-bottom: 10px; 
+}
+
+/* Visual Separators for Sections */
+hr {
+    border-top: 1px solid #eee; 
+    margin: 20px 0; 
 }
 
 /* Interactive Elements */
@@ -180,12 +211,17 @@ p {
     justify-content: space-between;
     align-items: center;
     border: 1px solid #e0e0e0;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
     cursor: pointer;
     border-radius: 8px;
     background-color: #fff;
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.property-module:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -226,6 +262,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+
 /* Misc */
 .hidden {
     display: none;
@@ -253,6 +290,7 @@ button:hover {
     .sidebar {
         position: relative;
         height: auto;
+        padding: 15px; 
     }
 
     h2,
@@ -291,6 +329,17 @@ button:hover {
         justify-content: center;
         width: 100%;
     }
+
+    h2, .detail-item h3, .detail-item p {
+        font-size: 95%;
+    }
+
+    .fancybox-thumbs {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        transform: none;
+    }
 }
 
 /* Scrollbar Styling for Webkit Browsers */
@@ -314,4 +363,32 @@ button:hover {
     margin-top: 20px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
+}
+
+/* Customize Fancybox navigation buttons */
+.fancybox-button--arrow_left, .fancybox-button--arrow_right {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 32px; /* Increased font size */
+    width: 80px; /* Increased width */
+    height: 80px; /* Increased height */
+    line-height: 80px; /* Center the icon vertically */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased box-shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for transform */
+}
+
+.fancybox-button--arrow_left:hover, .fancybox-button--arrow_right:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1); /* Scale up on hover */
+}
+
+.fancybox-button--arrow_left {
+    left: 20px;
+}
+
+.fancybox-button--arrow_right {
+    right: 20px;
 }

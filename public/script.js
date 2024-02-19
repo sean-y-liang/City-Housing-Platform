@@ -2,7 +2,8 @@ let map;
 let propertyDetailMap;
 let propertiesDataGlobal;
 let isMainMapViewActive = true;
-
+let currentMapCenter = null;
+let currentMapZoom = null;
 
 async function geocodeAddress(address) {
     const geocoder = new google.maps.Geocoder();
@@ -53,7 +54,7 @@ async function initMap() {
 
 
             const infoWindow = new google.maps.InfoWindow({
-                content: `<div><strong>${property.listing_name}</strong><br>${property.address}<br>$${property.monthly_rent} / month</div>`,
+                content: `<div><strong>${property.listing_name}</strong><br>$${property.monthly_rent} / month</div>`,
             });
 
             marker.addListener('mouseover', () => infoWindow.open(map, marker));
@@ -69,6 +70,38 @@ async function initMap() {
         console.error('Error fetching properties:', error);
         alert('An error occurred: ' + error.message);
     }
+}
+
+function returnToMainMapView() {
+    if (currentMapCenter && currentMapZoom) {
+        map.setCenter(currentMapCenter);
+        map.setZoom(currentMapZoom);
+    }
+    document.getElementById('map').style.display = 'block';
+    document.getElementById('property-images').style.display = 'none';
+    if (propertyDetailMap) {
+        const propertyMapContainer = document.getElementById('property-location-map');
+        if (propertyMapContainer) propertyMapContainer.style.display = 'none';
+    }
+    populateSidebarWithPropertyModules(propertiesDataGlobal);
+    isMainMapViewActive = true;
+}
+
+function initializeFancybox() {
+    $('[data-fancybox="gallery"]').fancybox({
+        buttons: ['thumbs', 'close'],
+        thumbs: {
+            autoStart: true, 
+            fitToView: true, 
+        },
+        loop: false,
+        infobar: true,
+        keyboard: true,
+        wheel: "auto", 
+        afterShow: function(instance, current) {
+            // Intentionally left blank to prevent history state manipulation by Fancybox
+        }
+    });
 }
 
 function updateImageGallery(pictures, title) {
@@ -96,15 +129,6 @@ function updateImageGallery(pictures, title) {
     });
 
     initializeFancybox();
-}
-
-
-function initializeFancybox() {
-    $('[data-fancybox="gallery"]').fancybox({
-        thumbs: { autoStart: true },
-        buttons: ['fullScreen', 'thumbs', 'close'],
-        animationEffect: 'zoom',
-    });
 }
 
 function populateSidebarWithPropertyModules(propertiesData) {
@@ -141,20 +165,58 @@ function populateSidebarWithPropertyModules(propertiesData) {
         const propertyMapContainer = document.getElementById('property-location-map');
         if (propertyMapContainer) propertyMapContainer.style.display = 'none';
     }
+
 }
 
 function toggleNavButtons(isDetailView) {
     const leftNav = document.querySelector('.left-nav');
     if (!leftNav) return console.error('Left navigation element not found!');
 
-    leftNav.innerHTML = isDetailView
-        ? `<button class="nav-button" onclick="populateSidebarWithPropertyModules(propertiesDataGlobal)">Back</button>`
-        : `<button class="nav-button" id="search-button">Search</button>
-         <button class="nav-button" id="filter-button">Filter ▼</button>`;
+    // Clear existing content to prevent duplicate buttons
+    leftNav.innerHTML = '';
+
+    if (isDetailView) {
+        // Create and append the Back button dynamically
+        const backButton = document.createElement('button');
+        backButton.className = 'nav-button';
+        backButton.textContent = 'Back';
+        backButton.addEventListener('click', function() {
+            // Call returnToMainMapView when Back button is clicked
+            returnToMainMapView();
+            // Optionally, manage history if required
+            if (history.state && history.state.level === 'details') {
+                history.back();
+            } else {
+                history.pushState(null, 'Main Map', '/');
+            }
+        });
+        leftNav.appendChild(backButton);
+    } else {
+        // Setup for the main map view with Search and Filter buttons
+        const searchButton = document.createElement('button');
+        searchButton.className = 'nav-button';
+        searchButton.id = 'search-button';
+        searchButton.textContent = 'Search';
+        // Add any event listeners for searchButton here
+        
+        const filterButton = document.createElement('button');
+        filterButton.className = 'nav-button';
+        filterButton.id = 'filter-button';
+        filterButton.textContent = 'Filter ▼';
+        // Add any event listeners for filterButton here
+        
+        leftNav.appendChild(searchButton);
+        leftNav.appendChild(filterButton);
+    }
 }
 
+
 async function displayPropertyDetails(property) {
-    history.pushState({ level: 'details', property: property }, property.listing_name);
+    if (isMainMapViewActive) {
+        currentMapCenter = map.getCenter();
+        currentMapZoom = map.getZoom();
+        history.pushState({ level: 'details', property: property }, property.listing_name, `#property${property.PID}`);
+    }    
     isMainMapViewActive = false;
     toggleNavButtons(true);
     document.getElementById('map').style.display = 'none';
@@ -170,17 +232,23 @@ async function displayPropertyDetails(property) {
 
     const sidebar = document.getElementById('sidebar');
     sidebar.innerHTML = `
-        <h2>${property.listing_name}</h2>
-        <p>Address: ${property.address}</p>
-        <p>Monthly Rent: $${property.monthly_rent}</p>
-        <p>Bedrooms: ${property.bedrooms}</p>
-        <p>Bathrooms: ${property.bathrooms}</p>
-        <p>Parking: ${property.parking ? 'Yes' : 'No'}</p>
-        <p>Laundry: ${property.laundry}</p>
-        <p>Furniture: ${property.furniture}</p>
-        <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p> 
-        <p>Status: ${property.status}</p>
-    `;
+    <h2>${property.listing_name}</h2>
+    <p>Address: ${property.address}</p>
+    ${property.house_type === 'Apartment' && property.floor_number !== null ? `<p>Floor Number: ${property.floor_number}</p>` : ''}
+    <p>Monthly Rent: $${property.monthly_rent}</p>
+    ${property.number_of_offered_rooms ? `<p>Rooms Offered: ${property.number_of_offered_rooms}</p>` : ''}
+    <p>Bedrooms: ${property.bedrooms}</p>
+    <p>Bathrooms: ${property.bathrooms % 1 === 0 ? Math.floor(property.bathrooms) : property.bathrooms}</p>
+    <p>Parking: ${property.parking ? 'Yes' : 'No'}</p>
+    <p>Laundry: ${property.laundry}</p>
+    ${property.house_type === 'House' && property.fenced_yard !== null ? `<p>Fenced Yard: ${property.fenced_yard ? 'Yes' : 'No'}</p>` : ''}
+    ${property.house_type === 'House' && property.detached_or_semi ? `<p>Type: ${property.detached_or_semi}</p>` : ''}
+    ${property.house_type === 'Apartment' && property.elevator !== null ? `<p>Elevator: ${property.elevator ? 'Yes' : 'No'}</p>` : ''}
+    ${property.private_kitchen !== null ? `<p>Private Kitchen: ${property.private_kitchen ? 'Yes' : 'No'}</p>` : ''}
+    <p>Furniture: ${property.furniture}</p>
+    <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+    <p>Status: ${property.status}</p>
+`;
 
     sidebar.innerHTML += `<div id="property-location-map" class="property-map"></div>`;
 
@@ -225,31 +293,20 @@ window.addEventListener('popstate', function (event) {
     }
 });
 
-document.querySelector('.nav-logo img').addEventListener('click', function () {
-    if (!isMainMapViewActive) {
-        // Reset the view to the main map if we are not already there
-        initMap();
-        populateSidebarWithPropertyModules(propertiesDataGlobal);
-        document.getElementById('map').style.display = 'block';
-        document.getElementById('property-images').style.display = 'none';
-        if (propertyDetailMap) {
-            const propertyMapContainer = document.getElementById('property-location-map');
-            propertyMapContainer.style.display = 'none';
-        }
-        isMainMapViewActive = true;
-        history.pushState(null, 'Main Map', '/');
-    }
-    // If already on the main map view, clicking the logo does nothing
-});
-
-// Adjust the window.popstate event listener if necessary to manage isMainMapViewActive
-window.addEventListener('popstate', function (event) {
-    // Check if the popstate event is triggered by closing Fancybox or navigating between views
-    if (event.state && event.state.level === 'details') {
+window.addEventListener('popstate', function(event) {
+    if ($.fancybox.getInstance()) {
+        $.fancybox.close(true);
+    } else if (event.state && event.state.level === 'details') {
         displayPropertyDetails(event.state.property);
     } else {
-        populateSidebarWithPropertyModules(propertiesDataGlobal);
-        isMainMapViewActive = true;
+        returnToMainMapView();
+    }
+});
+
+document.querySelector('.nav-logo img').addEventListener('click', function () {
+    if (!isMainMapViewActive) {
+        returnToMainMapView();
+        history.pushState(null, 'Main Map', '/');
     }
 });
 
