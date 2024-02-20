@@ -4,6 +4,9 @@ let propertiesDataGlobal;
 let isMainMapViewActive = true;
 let currentMapCenter = null;
 let currentMapZoom = null;
+let sidebarScrollPosition = 0;
+
+
 
 async function geocodeAddress(address) {
     const geocoder = new google.maps.Geocoder();
@@ -27,48 +30,56 @@ function createMarker(lat, lng, title, map) {
     });
 }
 
+
+
 async function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 44.22543338265272, lng: -76.49516120688114 }, // Queen's University coordinates
-        zoom: 15,
-    });
-
-    try {
-        const propertiesResponse = await fetch('http://localhost:3000/api/properties');
-        if (!propertiesResponse.ok) {
-            throw new Error(`Failed to fetch properties: ${propertiesResponse.statusText}`);
-        }
-        const propertiesData = await propertiesResponse.json();
-        propertiesDataGlobal = propertiesData;
-
-        const propertyPromises = propertiesData.map(async (property) => {
-            const picturesResponse = await fetch(`http://localhost:3000/api/pictures/${property.PID}`);
-            if (!picturesResponse.ok) {
-                throw new Error(`Failed to fetch pictures for property ${property.PID}: ${picturesResponse.statusText}`);
-            }
-            const picturesData = await picturesResponse.json();
-            property.pictures = picturesData.map((picture) => picture.file_name);
-
-            const { lat, lng } = await geocodeAddress(property.address);
-            const marker = createMarker(lat, lng, property.listing_name, map);
-
-
-            const infoWindow = new google.maps.InfoWindow({
-                content: `<div><strong>${property.listing_name}</strong><br>$${property.monthly_rent} / month</div>`,
-            });
-
-            marker.addListener('mouseover', () => infoWindow.open(map, marker));
-            marker.addListener('mouseout', () => infoWindow.close());
-
-            marker.addListener('click', () => displayPropertyDetails(property));
+    const mapElement = document.getElementById('map');
+    if (mapElement) { // Check if the map element exists
+        map = new google.maps.Map(mapElement, {
+            center: { lat: 44.22543338265272, lng: -76.49516120688114 }, // Queen's University coordinates
+            zoom: 15,
         });
 
-        await Promise.all(propertyPromises);
+        try {
+            const propertiesResponse = await fetch('http://localhost:3000/api/properties');
+            if (!propertiesResponse.ok) {
+                throw new Error(`Failed to fetch properties: ${propertiesResponse.statusText}`);
+            }
+            const propertiesData = await propertiesResponse.json();
+            propertiesDataGlobal = propertiesData;
 
-        populateSidebarWithPropertyModules(propertiesData);
-    } catch (error) {
-        console.error('Error fetching properties:', error);
-        alert('An error occurred: ' + error.message);
+            const propertyPromises = propertiesData.map(async (property) => {
+                const picturesResponse = await fetch(`http://localhost:3000/api/pictures/${property.PID}`);
+                if (!picturesResponse.ok) {
+                    throw new Error(`Failed to fetch pictures for property ${property.PID}: ${picturesResponse.statusText}`);
+                }
+                const picturesData = await picturesResponse.json();
+                property.pictures = picturesData.map((picture) => picture.file_name);
+
+                const { lat, lng } = await geocodeAddress(property.address);
+                const marker = createMarker(lat, lng, property.listing_name, map);
+
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<div><strong>${property.listing_name}</strong><br>$${property.monthly_rent} / month</div>`,
+                });
+
+                marker.addListener('mouseover', () => infoWindow.open(map, marker));
+                marker.addListener('mouseout', () => infoWindow.close());
+
+                marker.addListener('click', () => displayPropertyDetails(property));
+            });
+
+            await Promise.all(propertyPromises);
+
+            populateSidebarWithPropertyModules(propertiesData);
+        } catch (error) {
+            console.error('Error fetching properties:', error);
+            alert('An error occurred: ' + error.message);
+        }
+        // Initialize Autocomplete
+        initAutocomplete();        
+    } else {
+        console.error("Failed to find map element for initialization.");
     }
 }
 
@@ -85,7 +96,12 @@ function returnToMainMapView() {
     }
     populateSidebarWithPropertyModules(propertiesDataGlobal);
     isMainMapViewActive = true;
+    let sidebar = document.getElementById('sidebar');
+    sidebar.scrollTop = sidebarScrollPosition;
+    sidebarScrollPosition = 0; 
+    initAutocomplete();
 }
+
 
 function initializeFancybox() {
     $('[data-fancybox="gallery"]').fancybox({
@@ -167,47 +183,73 @@ function populateSidebarWithPropertyModules(propertiesData) {
     }
 
 }
-
 function toggleNavButtons(isDetailView) {
     const leftNav = document.querySelector('.left-nav');
     if (!leftNav) return console.error('Left navigation element not found!');
 
-    // Clear existing content to prevent duplicate buttons
-    leftNav.innerHTML = '';
+    leftNav.innerHTML = ''; // Clear existing buttons to ensure we don't duplicate them
+
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'search-container';
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.id = 'search-input';
+    searchInput.placeholder = 'Search...';
+    searchInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            searchLocation(searchInput.value);
+        }
+    });
+    const searchIcon = document.createElement('div');
+    searchIcon.className = 'search-icon';
+    searchIcon.id = 'search-icon';
+    // Add visual item for search
+    const searchImg = document.createElement('img');
+    searchImg.src = 'assets/icons/search.svg';
+    searchImg.alt = 'Search';
+    searchIcon.appendChild(searchImg);
+    searchContainer.appendChild(searchInput);
+    searchContainer.appendChild(searchIcon);
+
+    leftNav.appendChild(searchContainer);
 
     if (isDetailView) {
-        // Create and append the Back button dynamically
+        searchContainer.style.display = 'none';
+
         const backButton = document.createElement('button');
         backButton.className = 'nav-button';
         backButton.textContent = 'Back';
-        backButton.addEventListener('click', function() {
-            // Call returnToMainMapView when Back button is clicked
+        backButton.onclick = () => {
+            // Instead of refreshing or navigating via history, we directly call the function to return to main view. 
+            // This avoids any need for a page refresh or relying on the browser's history state
             returnToMainMapView();
-            // Optionally, manage history if required
-            if (history.state && history.state.level === 'details') {
-                history.back();
-            } else {
-                history.pushState(null, 'Main Map', '/');
-            }
-        });
+        };
         leftNav.appendChild(backButton);
     } else {
-        // Setup for the main map view with Search and Filter buttons
-        const searchButton = document.createElement('button');
-        searchButton.className = 'nav-button';
-        searchButton.id = 'search-button';
-        searchButton.textContent = 'Search';
-        // Add any event listeners for searchButton here
-        
         const filterButton = document.createElement('button');
         filterButton.className = 'nav-button';
         filterButton.id = 'filter-button';
         filterButton.textContent = 'Filter ▼';
-        // Add any event listeners for filterButton here
-        
-        leftNav.appendChild(searchButton);
         leftNav.appendChild(filterButton);
     }
+}
+
+function searchLocation(location) {
+    const placesService = new google.maps.places.PlacesService(map); 
+    placesService.textSearch({
+        query: location
+    }, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            const firstResult = results[0];
+            map.setCenter(firstResult.geometry.location);
+            const marker = new google.maps.Marker({
+                map: map,
+                position: firstResult.geometry.location
+            });
+        } else {
+            console.error('Search failed:', status);
+        }
+    });
 }
 
 
@@ -215,6 +257,8 @@ async function displayPropertyDetails(property) {
     if (isMainMapViewActive) {
         currentMapCenter = map.getCenter();
         currentMapZoom = map.getZoom();
+        let sidebar = document.getElementById('sidebar');
+        sidebarScrollPosition = sidebar.scrollTop;
         history.pushState({ level: 'details', property: property }, property.listing_name, `#property${property.PID}`);
     }    
     isMainMapViewActive = false;
@@ -281,27 +325,18 @@ async function displayPropertyDetails(property) {
 window.addEventListener('load', initMap);
 
 // Handle browser back and forward buttons
-window.addEventListener('popstate', function (event) {
-    if (!event.state || event.state.level !== 'fancybox') {
-        document.getElementById('map').style.display = 'block';
-        document.getElementById('property-images').style.display = 'none';
-        if (propertyDetailMap) {
-            const propertyMapContainer = document.getElementById('property-location-map');
-            if (propertyMapContainer) propertyMapContainer.style.display = 'none';
-        }
-        populateSidebarWithPropertyModules(propertiesDataGlobal);
-    }
-});
-
 window.addEventListener('popstate', function(event) {
     if ($.fancybox.getInstance()) {
         $.fancybox.close(true);
-    } else if (event.state && event.state.level === 'details') {
-        displayPropertyDetails(event.state.property);
     } else {
-        returnToMainMapView();
+        if (event.state && event.state.level === 'details') {
+            displayPropertyDetails(event.state.property);
+        } else {
+            returnToMainMapView();
+        }
     }
 });
+
 
 document.querySelector('.nav-logo img').addEventListener('click', function () {
     if (!isMainMapViewActive) {
@@ -309,4 +344,93 @@ document.querySelector('.nav-logo img').addEventListener('click', function () {
         history.pushState(null, 'Main Map', '/');
     }
 });
+
+document.getElementById('search-input').addEventListener('keyup', function(event) {
+    const searchTerm = event.target.value.trim();
+    if (searchTerm.length > 0) {
+        autocompleteSearch(searchTerm);
+    } else {
+        clearAutocompleteResults();
+    }
+});
+
+function autocompleteSearch(searchTerm) {
+    const autocompleteService = new google.maps.places.AutocompleteService();
+    autocompleteService.getPlacePredictions({ input: searchTerm }, function(predictions, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            displayAutocompleteResults(predictions);
+        } else {
+            console.error('Autocomplete search failed:', status);
+            clearAutocompleteResults();
+        }
+    });
+}
+
+function displayAutocompleteResults(predictions) {
+    const autocompleteResultsContainer = document.getElementById('autocomplete-results');
+    autocompleteResultsContainer.innerHTML = ''; // Clear previous results
+    predictions.forEach(prediction => {
+        const option = document.createElement('div');
+        option.classList.add('autocomplete-option');
+        option.textContent = prediction.description;
+        option.addEventListener('click', function() {
+            document.getElementById('search-input').value = prediction.description;
+            clearAutocompleteResults();
+            searchProperties(prediction.place_id); // Trigger search with place ID
+        });
+        autocompleteResultsContainer.appendChild(option);
+    });
+    autocompleteResultsContainer.style.display = 'block';
+}
+
+function clearAutocompleteResults() {
+    document.getElementById('autocomplete-results').innerHTML = '';
+    document.getElementById('autocomplete-results').style.display = 'none';
+}
+
+async function searchProperties(placeId) {
+    try {
+        const placeDetails = await getPlaceDetails(placeId);
+        const { lat, lng } = placeDetails.geometry.location;
+        map.setCenter({ lat, lng });
+        map.setZoom(15);
+    } catch (error) {
+        console.error('Error searching properties:', error);
+    }
+}
+
+function getPlaceDetails(placeId) {
+    const placesService = new google.maps.places.PlacesService(map); 
+    return new Promise((resolve, reject) => {
+        placesService.getDetails({ placeId: placeId }, (place, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                resolve(place);
+            } else {
+                reject('Failed to fetch place details');
+            }
+        });
+    });
+}
+
+function initAutocomplete() {
+    const input = document.getElementById('search-input');
+    const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+
+    autocomplete.addListener('place_changed', function() {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+        }
+    });
+
+    // Make sure the search icon is correctly identified and the click event is attached
+    const searchIcon = document.getElementById('search-icon');
+    searchIcon.addEventListener('click', function() {
+        const inputValue = input.value;
+        if (inputValue) {
+            searchLocation(inputValue);
+        }
+    });
+}
 

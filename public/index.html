@@ -12,7 +12,14 @@
 <body>
     <div class="top-nav">
         <div class="left-nav">
-            <button class="nav-button" id="search-button">Search</button>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search...">
+                <div class="search-icon">
+                    <img src="assets/icons/search.svg" alt="Search Icon">
+                </div>           
+            </div>
+            <div id="autocomplete-results"></div> <!-- Moved autocomplete results container inside the search container -->
+            
             <button class="nav-button" id="filter-button">Filter ▼</button>
         </div>
         <div class="nav-logo">
@@ -35,7 +42,7 @@
     <!-- jQuery library (required by Fancybox) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=INSERTKEYHERE&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=INSERTKEYHERE&libraries=places&callback=initMap" async defer></script>
 </body>
 
 </html>

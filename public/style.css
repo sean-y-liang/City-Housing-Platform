@@ -48,6 +48,7 @@ html {
     grid-gap: 10px;
     padding: 10px;
     box-sizing: border-box;
+    
 }
 
 .property-image {
@@ -290,7 +291,7 @@ button:hover {
     .sidebar {
         position: relative;
         height: auto;
-        padding: 15px; 
+        padding: 10px; 
     }
 
     h2,
@@ -311,16 +312,12 @@ button:hover {
 
     .top-nav {
         flex-wrap: wrap;
-        /* Allows items to wrap instead of shrink */
         padding: 10px;
-        /* Reduces padding on small screens */
     }
 
     .nav-logo {
         order: -1;
-        /* Moves logo to the top on small screens */
         width: 100%;
-        /* Gives the logo full width */
         margin: 10px 0;
     }
 
@@ -331,7 +328,7 @@ button:hover {
     }
 
     h2, .detail-item h3, .detail-item p {
-        font-size: 95%;
+        font-size: 90%;
     }
 
     .fancybox-thumbs {
@@ -339,6 +336,10 @@ button:hover {
         left: 0;
         width: 100%;
         transform: none;
+    }
+
+    .property-module, .button {
+        padding: 8px; 
     }
 }
 
@@ -371,18 +372,18 @@ button:hover {
     border: none;
     border-radius: 50%;
     color: white;
-    font-size: 32px; /* Increased font size */
-    width: 80px; /* Increased width */
-    height: 80px; /* Increased height */
-    line-height: 80px; /* Center the icon vertically */
+    font-size: 32px; 
+    width: 80px; 
+    height: 80px; 
+    line-height: 80px; 
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased box-shadow */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for transform */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s ease, transform 0.3s ease; 
 }
 
 .fancybox-button--arrow_left:hover, .fancybox-button--arrow_right:hover {
     background-color: rgba(0, 0, 0, 0.7);
-    transform: scale(1.1); /* Scale up on hover */
+    transform: scale(1.1); 
 }
 
 .fancybox-button--arrow_left {
@@ -391,4 +392,73 @@ button:hover {
 
 .fancybox-button--arrow_right {
     right: 20px;
+}
+
+/* Search Container */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+/* Search Input */
+#search-input {
+    padding: 9px 40px 9px 20px; 
+    border: 2px solid #007bff; 
+    border-radius: 6px; 
+    font-size: 16px; 
+    width: 100%; 
+    outline: none;
+    transition: all 0.3s; 
+    background-color: #fff; 
+    color: #333; 
+    margin-right: 8px; 
+    height: 24px; 
+}
+
+#search-input:focus {
+    border-color: #0056b3; 
+    box-shadow: 0 0 8px rgba(0,123,255,.5); 
+}
+
+/* Search Icon */
+.search-icon {
+    position: absolute;
+    right: 20px; 
+    top: 53%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #007bff; 
+}
+
+.search-icon svg {
+    width: 20px; 
+    height: auto;
+    transition: opacity 0.3s ease;
+}
+
+.search-icon:hover img {
+    opacity: 0.7; 
+}
+
+/* Enhancements for Autocomplete Suggestions */
+.pac-container {
+    border-radius: 8px; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2); 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.pac-item {
+    padding: 10px 15px; 
+    border-bottom: 1px solid #e0e0e0; 
+}
+
+.pac-item:hover, .pac-item:focus {
+    background-color: #e9ecef; 
+}
+
+.pac-item-query {
+    font-weight: bold; 
+    color: #007bff; 
 }
