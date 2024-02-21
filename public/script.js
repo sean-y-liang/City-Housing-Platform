@@ -6,8 +6,39 @@ let currentMapCenter = null;
 let currentMapZoom = null;
 let sidebarScrollPosition = 0;
 
+// Event listener to initialize the map when the window loads
+window.addEventListener('load', initMap);
 
+// Event listener to handle browser back and forward buttons
+window.addEventListener('popstate', function (event) {
+    if ($.fancybox.getInstance()) {
+        $.fancybox.close(true);
+    } else {
+        if (event.state && event.state.level === 'details') {
+            displayPropertyDetails(event.state.property);
+        } else {
+            returnToMainMapView();
+        }
+    }
+});
+// Event listener to return to main map view when the logo is clicked
+document.querySelector('.nav-logo img').addEventListener('click', function () {
+    if (!isMainMapViewActive) {
+        returnToMainMapView();
+        history.pushState(null, 'Main Map', '/');
+    }
+});
+// Event listener to handle search input for autocomplete functionality
+document.getElementById('search-input').addEventListener('keyup', function (event) {
+    const searchTerm = event.target.value.trim();
+    if (searchTerm.length > 0) {
+        autocompleteSearch(searchTerm);
+    } else {
+        clearAutocompleteResults();
+    }
+});
 
+// Function to geocode an address and return its latitude and longitude
 async function geocodeAddress(address) {
     const geocoder = new google.maps.Geocoder();
     return new Promise((resolve, reject) => {
@@ -22,22 +53,26 @@ async function geocodeAddress(address) {
     });
 }
 
-function createMarker(lat, lng, title, map) {
+// Function to create a marker on the map
+function createMarker(lat, lng, map) {
     return new google.maps.Marker({
         position: { lat, lng },
         map: map,
-        title: title,
     });
 }
 
-
-
+// Function to initialize the map and fetch property data
 async function initMap() {
     const mapElement = document.getElementById('map');
     if (mapElement) { // Check if the map element exists
         map = new google.maps.Map(mapElement, {
             center: { lat: 44.22543338265272, lng: -76.49516120688114 }, // Queen's University coordinates
             zoom: 15,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                mapTypeIds: ['roadmap', 'satellite', 'hybrid'] // Exclude 'terrain'
+            }
         });
 
         try {
@@ -57,7 +92,7 @@ async function initMap() {
                 property.pictures = picturesData.map((picture) => picture.file_name);
 
                 const { lat, lng } = await geocodeAddress(property.address);
-                const marker = createMarker(lat, lng, property.listing_name, map);
+                const marker = createMarker(lat, lng, map);
 
                 const infoWindow = new google.maps.InfoWindow({
                     content: `<div><strong>${property.listing_name}</strong><br>$${property.monthly_rent} / month</div>`,
@@ -77,12 +112,13 @@ async function initMap() {
             alert('An error occurred: ' + error.message);
         }
         // Initialize Autocomplete
-        initAutocomplete();        
+        initAutocomplete();
     } else {
         console.error("Failed to find map element for initialization.");
     }
 }
 
+// Function to return to the main map view
 function returnToMainMapView() {
     if (currentMapCenter && currentMapZoom) {
         map.setCenter(currentMapCenter);
@@ -98,28 +134,29 @@ function returnToMainMapView() {
     isMainMapViewActive = true;
     let sidebar = document.getElementById('sidebar');
     sidebar.scrollTop = sidebarScrollPosition;
-    sidebarScrollPosition = 0; 
+    sidebarScrollPosition = 0;
     initAutocomplete();
 }
 
-
+// Function to initialize the Fancybox plugin for image galleries
 function initializeFancybox() {
     $('[data-fancybox="gallery"]').fancybox({
         buttons: ['thumbs', 'close'],
         thumbs: {
-            autoStart: true, 
-            fitToView: true, 
+            autoStart: true,
+            fitToView: true,
         },
         loop: false,
         infobar: true,
         keyboard: true,
-        wheel: "auto", 
-        afterShow: function(instance, current) {
+        wheel: "auto",
+        afterShow: function (instance, current) {
             // Intentionally left blank to prevent history state manipulation by Fancybox
         }
     });
 }
 
+// Function to update the image gallery with property pictures
 function updateImageGallery(pictures, title) {
     const imagesContainer = document.getElementById('property-images');
     imagesContainer.innerHTML = ''; // Clear the container before adding new images
@@ -143,12 +180,12 @@ function updateImageGallery(pictures, title) {
         anchor.appendChild(imgElement);
         imagesContainer.appendChild(anchor);
     });
-
     initializeFancybox();
 }
 
+// Function to populate the sidebar with property modules
 function populateSidebarWithPropertyModules(propertiesData) {
-    isMainMapViewActive = true; 
+    isMainMapViewActive = true;
     const sidebar = document.getElementById('sidebar');
     sidebar.innerHTML = '';
     toggleNavButtons(false);
@@ -175,14 +212,14 @@ function populateSidebarWithPropertyModules(propertiesData) {
     } else {
         sidebar.innerHTML += '<p>No properties available.</p>';
     }
-
     if (propertyDetailMap) {
         propertyDetailMap = null;
         const propertyMapContainer = document.getElementById('property-location-map');
         if (propertyMapContainer) propertyMapContainer.style.display = 'none';
     }
-
 }
+
+// Function to toggle navigation buttons between main view and property detail view
 function toggleNavButtons(isDetailView) {
     const leftNav = document.querySelector('.left-nav');
     if (!leftNav) return console.error('Left navigation element not found!');
@@ -195,7 +232,7 @@ function toggleNavButtons(isDetailView) {
     searchInput.type = 'text';
     searchInput.id = 'search-input';
     searchInput.placeholder = 'Search...';
-    searchInput.addEventListener('keydown', function(event) {
+    searchInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             searchLocation(searchInput.value);
         }
@@ -234,25 +271,30 @@ function toggleNavButtons(isDetailView) {
     }
 }
 
+// Function to search for a location using the Google Places API
 function searchLocation(location) {
-    const placesService = new google.maps.places.PlacesService(map); 
+    const placesService = new google.maps.places.PlacesService(map);
     placesService.textSearch({
         query: location
-    }, function(results, status) {
+    }, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             const firstResult = results[0];
-            map.setCenter(firstResult.geometry.location);
-            const marker = new google.maps.Marker({
-                map: map,
-                position: firstResult.geometry.location
-            });
+            if (firstResult) {
+                map.setCenter(firstResult.geometry.location);
+                const marker = new google.maps.Marker({
+                    map: map,
+                    position: firstResult.geometry.location
+                });
+            } else {
+                console.error('No results found for the location:', location);
+            }
         } else {
-            console.error('Search failed:', status);
+            console.error('Search failed for location:', location, 'with status:', status);
         }
     });
 }
 
-
+// Function to display property details in the sidebar and on the map
 async function displayPropertyDetails(property) {
     if (isMainMapViewActive) {
         currentMapCenter = map.getCenter();
@@ -260,7 +302,7 @@ async function displayPropertyDetails(property) {
         let sidebar = document.getElementById('sidebar');
         sidebarScrollPosition = sidebar.scrollTop;
         history.pushState({ level: 'details', property: property }, property.listing_name, `#property${property.PID}`);
-    }    
+    }
     isMainMapViewActive = false;
     toggleNavButtons(true);
     document.getElementById('map').style.display = 'none';
@@ -277,22 +319,22 @@ async function displayPropertyDetails(property) {
     const sidebar = document.getElementById('sidebar');
     sidebar.innerHTML = `
     <h2>${property.listing_name}</h2>
-    <p>Address: ${property.address}</p>
-    ${property.house_type === 'Apartment' && property.floor_number !== null ? `<p>Floor Number: ${property.floor_number}</p>` : ''}
-    <p>Monthly Rent: $${property.monthly_rent}</p>
-    ${property.number_of_offered_rooms ? `<p>Rooms Offered: ${property.number_of_offered_rooms}</p>` : ''}
-    <p>Bedrooms: ${property.bedrooms}</p>
-    <p>Bathrooms: ${property.bathrooms % 1 === 0 ? Math.floor(property.bathrooms) : property.bathrooms}</p>
-    <p>Parking: ${property.parking ? 'Yes' : 'No'}</p>
-    <p>Laundry: ${property.laundry}</p>
-    ${property.house_type === 'House' && property.fenced_yard !== null ? `<p>Fenced Yard: ${property.fenced_yard ? 'Yes' : 'No'}</p>` : ''}
-    ${property.house_type === 'House' && property.detached_or_semi ? `<p>Type: ${property.detached_or_semi}</p>` : ''}
-    ${property.house_type === 'Apartment' && property.elevator !== null ? `<p>Elevator: ${property.elevator ? 'Yes' : 'No'}</p>` : ''}
-    ${property.private_kitchen !== null ? `<p>Private Kitchen: ${property.private_kitchen ? 'Yes' : 'No'}</p>` : ''}
-    <p>Furniture: ${property.furniture}</p>
-    <p>Listed Date: ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-    <p>Status: ${property.status}</p>
-`;
+    <p><strong>Address:</strong> ${property.address}</p>
+    ${property.house_type === 'Apartment' && property.floor_number !== null ? `<p><strong>Floor Number:</strong> ${property.floor_number}</p>` : ''}
+    <p><strong>Monthly Rent:</strong> $${property.monthly_rent}</p>
+    ${property.number_of_offered_rooms ? `<p><strong>Rooms Offered:</strong> ${property.number_of_offered_rooms}</p>` : ''}
+    <p><strong>Bedrooms:</strong> ${property.bedrooms}</p>
+    <p><strong>Bathrooms:</strong> ${property.bathrooms % 1 === 0 ? Math.floor(property.bathrooms) : property.bathrooms}</p>
+    <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
+    <p><strong>Laundry:</strong> ${property.laundry}</p>
+    ${property.house_type === 'House' && property.fenced_yard !== null ? `<p><strong>Fenced Yard:</strong> ${property.fenced_yard ? 'Yes' : 'No'}</p>` : ''}
+    ${property.house_type === 'House' && property.detached_or_semi ? `<p><strong>Type:</strong> ${property.detached_or_semi}</p>` : ''}
+    ${property.house_type === 'Apartment' && property.elevator !== null ? `<p><strong>Elevator:</strong> ${property.elevator ? 'Yes' : 'No'}</p>` : ''}
+    ${property.private_kitchen !== null ? `<p><strong>Private Kitchen:</strong> ${property.private_kitchen ? 'Yes' : 'No'}</p>` : ''}
+    <p><strong>Furniture:</strong> ${property.furniture}</p>
+    <p><strong>Listed Date:</strong> ${new Date(property.date_listed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+    <p><strong>Status:</strong> ${property.status}</p>
+    `;    
 
     sidebar.innerHTML += `<div id="property-location-map" class="property-map"></div>`;
 
@@ -317,55 +359,25 @@ async function displayPropertyDetails(property) {
             console.error('Large map is not initialized.');
         }
     } catch (error) {
-        console.error('Error geocoding address:', error);
-        alert('An error occurred: ' + error.message);
+        console.error('Error displaying property details:', error);
+        alert('An error occurred while displaying property details: ' + error.message);
     }
 }
 
-window.addEventListener('load', initMap);
-
-// Handle browser back and forward buttons
-window.addEventListener('popstate', function(event) {
-    if ($.fancybox.getInstance()) {
-        $.fancybox.close(true);
-    } else {
-        if (event.state && event.state.level === 'details') {
-            displayPropertyDetails(event.state.property);
-        } else {
-            returnToMainMapView();
-        }
-    }
-});
-
-
-document.querySelector('.nav-logo img').addEventListener('click', function () {
-    if (!isMainMapViewActive) {
-        returnToMainMapView();
-        history.pushState(null, 'Main Map', '/');
-    }
-});
-
-document.getElementById('search-input').addEventListener('keyup', function(event) {
-    const searchTerm = event.target.value.trim();
-    if (searchTerm.length > 0) {
-        autocompleteSearch(searchTerm);
-    } else {
-        clearAutocompleteResults();
-    }
-});
-
+// Function to perform autocomplete search using the Google Places API
 function autocompleteSearch(searchTerm) {
     const autocompleteService = new google.maps.places.AutocompleteService();
-    autocompleteService.getPlacePredictions({ input: searchTerm }, function(predictions, status) {
+    autocompleteService.getPlacePredictions({ input: searchTerm }, function (predictions, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             displayAutocompleteResults(predictions);
         } else {
-            console.error('Autocomplete search failed:', status);
+            console.error('Autocomplete search failed for term:', searchTerm, 'with status:', status);
             clearAutocompleteResults();
         }
     });
 }
 
+// Function to display autocomplete results in the search input
 function displayAutocompleteResults(predictions) {
     const autocompleteResultsContainer = document.getElementById('autocomplete-results');
     autocompleteResultsContainer.innerHTML = ''; // Clear previous results
@@ -373,7 +385,7 @@ function displayAutocompleteResults(predictions) {
         const option = document.createElement('div');
         option.classList.add('autocomplete-option');
         option.textContent = prediction.description;
-        option.addEventListener('click', function() {
+        option.addEventListener('click', function () {
             document.getElementById('search-input').value = prediction.description;
             clearAutocompleteResults();
             searchProperties(prediction.place_id); // Trigger search with place ID
@@ -383,11 +395,13 @@ function displayAutocompleteResults(predictions) {
     autocompleteResultsContainer.style.display = 'block';
 }
 
+// Function to clear autocomplete results from the search input
 function clearAutocompleteResults() {
     document.getElementById('autocomplete-results').innerHTML = '';
     document.getElementById('autocomplete-results').style.display = 'none';
 }
 
+// Function to search for properties using a place ID
 async function searchProperties(placeId) {
     try {
         const placeDetails = await getPlaceDetails(placeId);
@@ -399,38 +413,91 @@ async function searchProperties(placeId) {
     }
 }
 
+// Function to get place details using the Google Places API
 function getPlaceDetails(placeId) {
-    const placesService = new google.maps.places.PlacesService(map); 
+    const placesService = new google.maps.places.PlacesService(map);
     return new Promise((resolve, reject) => {
         placesService.getDetails({ placeId: placeId }, (place, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 resolve(place);
             } else {
-                reject('Failed to fetch place details');
+                reject('Failed to fetch place details for place ID:', placeId, 'with status:', status);
             }
         });
     });
 }
 
+// Function to initialize autocomplete functionality for the search input
 function initAutocomplete() {
     const input = document.getElementById('search-input');
-    const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+    const options = {
+        types: ['geocode'],
+        componentRestrictions: { country: 'CA' },
+        bounds: new google.maps.LatLngBounds(
+            new google.maps.LatLng(44.180, -76.530), // Southwest corner of Kingston
+            new google.maps.LatLng(44.250, -76.450)  // Northeast corner of Kingston
+        )
+    };
 
-    autocomplete.addListener('place_changed', function() {
+    const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    autocomplete.addListener('place_changed', function () {
         const place = autocomplete.getPlace();
-        if (place.geometry) {
-            map.setCenter(place.geometry.location);
-            map.setZoom(15);
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
         }
-    });
-
-    // Make sure the search icon is correctly identified and the click event is attached
-    const searchIcon = document.getElementById('search-icon');
-    searchIcon.addEventListener('click', function() {
-        const inputValue = input.value;
-        if (inputValue) {
-            searchLocation(inputValue);
-        }
+        const location = place.geometry.location;
+        map.setCenter(location);
+        placeSearchMarker(location, map);
     });
 }
 
+// Function to place a marker at the searched location on the map
+function placeSearchMarker(location, map) {
+    const geocoder = new google.maps.Geocoder();
+
+    // Define a built-in marker icon with a different color for distinction
+    const icon = {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 8,
+        fillColor: "#FF0000",
+        fillOpacity: 0.8,
+        strokeWeight: 2
+    };
+
+    // Create and place the marker
+    const searchMarker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: icon, // Use the created icon
+    });
+
+    // Geocode the location to get a readable address
+    geocoder.geocode({ 'location': location }, function (results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                const address = results[0].formatted_address;
+
+                // Create an InfoWindow for the search marker with the address in one line
+                const searchInfoWindow = new google.maps.InfoWindow({
+                    content: `<strong>Search Location:</strong> ${address}`
+                });
+
+                // Show the InfoWindow on mouseover
+                searchMarker.addListener('mouseover', () => {
+                    searchInfoWindow.open(map, searchMarker);
+                });
+
+                // Close the InfoWindow on mouseout
+                searchMarker.addListener('mouseout', () => {
+                    searchInfoWindow.close();
+                });
+            } else {
+                console.log('No results found');
+            }
+        } else {
+            console.log('Geocoder failed due to: ' + status);
+        }
+    });
+}

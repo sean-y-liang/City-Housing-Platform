@@ -2,28 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Listings</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 </head>
 
 <body>
     <div class="top-nav">
         <div class="left-nav">
+            <!-- Search Container -->
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Search...">
                 <div class="search-icon">
                     <img src="assets/icons/search.svg" alt="Search Icon">
-                </div>           
+                </div>
             </div>
-            <div id="autocomplete-results"></div> <!-- Moved autocomplete results container inside the search container -->
-            
+            <!-- Autocomplete Results -->
+            <div id="autocomplete-results"></div>
             <button class="nav-button" id="filter-button">Filter ▼</button>
         </div>
         <div class="nav-logo">
-            <img src="assets/logos/logo.jpg" alt="Logo" style="height: 50px" />
+            <img src="assets/logos/logo.jpg" alt="Logo" style="height: 50px;">
         </div>
         <div class="right-nav">
             <button class="nav-button" id="my-account-button">My Account</button>
@@ -31,18 +32,22 @@
     </div>
     <div class="sidebar" id="sidebar">
         <h2>Available Properties</h2>
-        <!-- script.js will insert property listings inserted here -->
+        <!-- Property listings will be inserted here by script.js -->
     </div>
     <div id="map"></div>
     <div class="picture-viewer-container" id="property-images">
-        <!-- script.js will insert pictures here -->
+        <!-- Property images will be inserted here by script.js -->
     </div>
 
-    <script src="script.js"></script>
-    <!-- jQuery library (required by Fancybox) -->
+    <!-- JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=INSERTKEYHERE&libraries=places&callback=initMap" async defer></script>
+    <!-- Google Maps API -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=INSERTKEYHERE&libraries=places&callback=initMap"
+        async defer></script>
+    <!-- Custom Script -->
+    <script src="script.js"></script>
 </body>
 
 </html>
