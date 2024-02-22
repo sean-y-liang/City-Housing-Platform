@@ -343,14 +343,17 @@ async function displayPropertyDetails(property) {
         propertyDetailMap = new google.maps.Map(document.getElementById('property-location-map'), {
             center: { lat, lng },
             zoom: 15,
-            disableDefaultUI: true,
-            streetViewControl: false,
-            mapTypeControl: false,
-            zoomControl: true,
-            fullscreenControl: false,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                mapTypeIds: ['roadmap', 'satellite', 'hybrid'] // Exclude 'terrain'
+            },
         });
 
-        const marker = createMarker(lat, lng, property.listing_name, propertyDetailMap);
+        new google.maps.Marker({
+            position: { lat, lng },
+            map: propertyDetailMap,
+            title: property.listing_name
+        });
 
         if (map) {
             map.panTo(new google.maps.LatLng(lat, lng));
