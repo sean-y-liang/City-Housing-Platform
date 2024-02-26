@@ -4,7 +4,7 @@ CISC 499 capstone project: City of Kingston Housing Match (Prof. Wendy Powley)
 ## Frontend Setup
 
 ### Google Maps API
-Replace the key in public/index.html with your Google Maps API key.
+Replace the key in /public/index.html with your Google Maps API key.
 
 ## Backend Setup
 This current backend serves as the data management and API layer for providing endpoints to access property details and associated images.
@@ -15,7 +15,7 @@ This current backend serves as the data management and API layer for providing e
 - npm for managing packages
   
 ### Installing the npm packages
-Navigate to the backend directory.
+Navigate to the /server directory.
 >sudo npm install
 
 >npm install express cors mysql2
@@ -23,7 +23,7 @@ Navigate to the backend directory.
 ### Database setup
 If not yet created, create the database on your local machine using the provided db.sql script. Remember your username (default: root) and password.
 
-In server/database.sql, edit the 'user' and 'password' fields according to your set credentials.
+In /server/database.sql, edit the 'user' and 'password' fields according to your set credentials.
 
 ## Running the Node Server
 Start the node server.
