@@ -4,6 +4,7 @@ let propertiesDataGlobal;
 let isMainMapViewActive = true;
 let currentMapCenter = null;
 let currentMapZoom = null;
+let currentSearchMarker = null;
 let sidebarScrollPosition = 0;
 
 // Event listener to initialize the map when the window loads
@@ -434,7 +435,6 @@ function getPlaceDetails(placeId) {
 function initAutocomplete() {
     const input = document.getElementById('search-input');
     const options = {
-        types: ['geocode'],
         componentRestrictions: { country: 'CA' },
         bounds: new google.maps.LatLngBounds(
             new google.maps.LatLng(44.180, -76.530), // Southwest corner of Kingston
@@ -460,7 +460,11 @@ function initAutocomplete() {
 function placeSearchMarker(location, map) {
     const geocoder = new google.maps.Geocoder();
 
-    // Define a built-in marker icon with a different color for distinction
+    // If a search marker already exists, remove it from the map
+    if (currentSearchMarker) {
+        currentSearchMarker.setMap(null);
+    }
+
     const icon = {
         path: google.maps.SymbolPath.CIRCLE,
         scale: 8,
@@ -469,31 +473,23 @@ function placeSearchMarker(location, map) {
         strokeWeight: 2
     };
 
-    // Create and place the marker
-    const searchMarker = new google.maps.Marker({
+    currentSearchMarker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: icon, // Use the created icon
+        icon: icon, 
     });
 
-    // Geocode the location to get a readable address
     geocoder.geocode({ 'location': location }, function (results, status) {
         if (status === 'OK') {
             if (results[0]) {
                 const address = results[0].formatted_address;
-
-                // Create an InfoWindow for the search marker with the address in one line
                 const searchInfoWindow = new google.maps.InfoWindow({
                     content: `<strong>Search Location:</strong> ${address}`
                 });
-
-                // Show the InfoWindow on mouseover
-                searchMarker.addListener('mouseover', () => {
-                    searchInfoWindow.open(map, searchMarker);
+                currentSearchMarker.addListener('mouseover', () => {
+                    searchInfoWindow.open(map, currentSearchMarker);
                 });
-
-                // Close the InfoWindow on mouseout
-                searchMarker.addListener('mouseout', () => {
+                currentSearchMarker.addListener('mouseout', () => {
                     searchInfoWindow.close();
                 });
             } else {
