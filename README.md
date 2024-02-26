@@ -23,7 +23,7 @@ Navigate to the /server directory.
 ### Database setup
 If not yet created, create the database on your local machine using the provided db.sql script. Remember your username (default: root) and password.
 
-In /server/database.sql, edit the 'user' and 'password' fields according to your set credentials.
+In /server/database.sql, replace the 'user' and 'password' fields according to your set credentials.
 
 ## Running the Node Server
 Start the node server.
