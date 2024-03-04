@@ -1,37 +1,64 @@
-# CISC499_housing_P
-CISC 499 capstone project: City of Kingston Housing Match (Prof. Wendy Powley)
+# City of Kingston Housing Match
 
-## Frontend Setup
+This undergraduate capstone project, developed for CISC 499 at Queen's University under Prof. Wendy Powley, aims to streamline the housing search process in the City of Kingston. It connects students with landlords through an interactive platform, creating an intuitive house hunting experience.
 
-### Google Maps API
-Replace the key in /public/index.html with your Google Maps API key.
+## Getting Started
 
-## Backend Setup
-This current backend serves as the data management and API layer for providing endpoints to access property details and associated images.
+### Prerequisites
 
-### Dependencies
+Before you begin, ensure you have the following installed:
 - MySQL
-- Node.js (version 12.x or above)
-- npm for managing packages
-  
-### Installing the npm packages
-Navigate to the /server directory.
->sudo npm install
+- Node.js (v12.x or above)
+- npm
 
->npm install express cors mysql2
+### Frontend Setup
 
-### Database setup
-If not yet created, create the database on your local machine using the provided db.sql script. Remember your username (default: root) and password.
+**Google Maps API Key**
 
-In /server/database.sql, replace the 'user' and 'password' fields according to your set credentials.
+Find the `<script>` tag in `/public/index.html` and replace `YOUR_API_KEY_HERE` with your actual Google Maps API key.
 
-## Running the Node Server
-Start the node server.
->node app.js
+### Backend Setup
 
-The node application will begin listening for requests.
+Our backend acts as the core for property data management and serves endpoints for accessing property details and images.
 
-## API Documentation
-### Endpoints
-- **GET /api/properties**: Fetches all property listings.
-- **GET /api/pictures/{pid}**: Fetches all pictures for a property with the given PID.
+#### Dependencies
+
+The project relies on several key dependencies:
+- **Express**: for server setup
+- **Cors**: for cross-origin resource sharing
+- **MySQL2**: for MySQL interaction
+
+Install all dependencies by navigating to the `/server` directory and running:
+
+```Bash
+npm install
+npm install express cors mysql2
+```
+
+#### Database Configuration
+Create your database with the provided `db.sql` script. Update `/server/database.sql` with your MySQL credentials:
+
+```JavaScript
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'yourUsername',
+  password: 'yourPassword',
+  database: 'yourDatabaseName'
+});
+```
+
+### Running the Server
+Start the server using:
+
+```Bash
+node app.js
+```
+
+The server will listen for requests, making the application accessible through http://localhost:3000.
+
+### API Documentation
+
+#### Endpoints
+```GET /api/properties```: Fetches all property listings.
+
+```GET /api/pictures/{pid}```: Retrieves all pictures for a property identified by PID.
