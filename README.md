@@ -35,8 +35,8 @@ npm install
 npm install express cors mysql2
 ```
 
-### Database Configuration
-Create your database with the provided db.sql script. Update /server/database.sql with your MySQL credentials:
+#### Database Configuration
+Create your database with the provided `db.sql` script. Update `/server/database.sql` with your MySQL credentials:
 
 ```JavaScript
 const db = mysql.createConnection({
@@ -60,4 +60,5 @@ The server will listen for requests, making the application accessible through h
 
 #### Endpoints
 ```GET /api/properties```: Fetches all property listings.
+
 ```GET /api/pictures/{pid}```: Retrieves all pictures for a property identified by PID.
