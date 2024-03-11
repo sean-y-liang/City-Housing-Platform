@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find a Group</title>
+</head>
+<body>
+<h1>Add member(s)</h1>
+<a href="/dashboard.html">Back to Dashboard</a>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get('message');
+    if (message === "null") {
+        alert('At least one field should be filled in.');
+    }
+</script>
+<div>Search for group member(s)</div>
+<h3>Wildcards:</h3>
+<div>%&nbsp;Represents zero or more characters</div>
+<div>_&nbsp;Represents a single character</div><br>
+<h3>Member information:</h3>
+<form method="post">
+    <label for="fName">First Name:</label><br>
+    <input type="text" id="fName" name="fName"><br>
+    <label for="lName">Last Name:</label><br>
+    <input type="text" id="lName" name="lName"><br>
+    <label for="phone">Phone Number:</label><br>
+    <input type="text" id="phone" name="phone"><br><br>
+    <input type="submit" name="Search">
+</form>
+</body>
+</html>
