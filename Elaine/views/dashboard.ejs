@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/Elaine/Queens.png">
+</head>
+<body>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    let message = params.get('message');
+    if (message === "created") {
+        alert("Successfully created the group.");
+    }
+    if (message === "left") {
+        alert("Successfully left the group.")
+    }
+    if (message === "duplicated") {
+        alert("Already in a group.")
+    }
+    if (message === "added") {
+        alert("Member successfully added.")
+    }
+    if (message === "nonadded") {
+        alert("No member added.")
+    }
+    if (message === "deleted") {
+        alert("Member(s) successfully deleted.")
+    }
+    if (message === "failed") {
+        alert("Failed to delete member(s).")
+    }
+    if (message === "changed") {
+        alert("Group preference changes.")
+    }
+    if (message === "canceled") {
+        alert("Group preference change canceled.")
+    }
+</script>
+<h1>Welcome, <%= student.fName %>!</h1>
+<p>Your ID is: <%= student.uid_ %></p>
+<% if (student.gid_ === null) { %>
+    <form action="/dashboard" method="post">
+    <button type="submit">Create New Group</button>
+    </form>
+<% } else { %>
+    <p>You are in group: <%= student.gid_ %></p>
+    <p>Current group member:</p>
+    <% if (members.length === 0) { %>
+        <p>There is no member in your group now.</p>
+    <% } %>
+    <% if (members.length !== 0) { %>
+        <% for (let x = 0; x < members.length; x++) { %>
+            <ul>
+                <li><%= members[x].fName %> <%= members[x].lName %></li>
+            </ul>
+        <% } %>
+        <a class="button" href="/delete-member.html">Delete Group Member(s)</a><br><br>
+    <% } %>
+    <a href="/member.html" class="button">New Group Member</a><br>
+    <a href="/modify-group.html" class="button">Modify group</a>
+<% } %>
+</body>
+</html>

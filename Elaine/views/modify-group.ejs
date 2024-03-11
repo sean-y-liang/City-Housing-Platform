@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modify group</title>
+</head>
+<body>
+<h1>Modify Group Setting</h1>
+<a href="/dashboard.html">Back to Dashboard</a>
+<form action="/modify-group" method="post">
+    <label for="roomType">Preferred Type: </label><br>
+    <select name="roomType" id="roomType">
+        <option value="house">House</option>
+        <option value="apart">Apartment</option>
+    </select><br>
+    <label for="bedroom">Bedrooms: </label><br>
+    <input type="number" id="bedroom" name="bedroom"><br>
+    <label for="bathroom">Bathroom: </label><br>
+    <input type="number" id="bathroom" name="bathroom"><br>
+    <label for="parking">Parking: </label><br>
+    <input type="number" id="parking" name="parking"><br>
+    <label for="laundry">Laundry: </label><br>
+    <select name="laundry" id="laundry">
+        <option value="shared">Shared</option>
+        <option value="ensuite">Ensuite</option>
+    </select><br>
+    <label for="lowerBound">Lowest rent: </label><br>
+    <input type="number" step="0.01" id="lowerBound" name="lBound"><br>
+    <label for="upperBound">Highest rent: </label><br>
+    <input type="number" step="0.01" id="upperBound" name="uBound"><br>
+    <label for="accessibility">Accessibility</label><br>
+    <select name="accessibility" id="accessibility">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+    </select><br><br>
+    <button type="submit">Change information</button>
+</form>
+<script>
+    const dict = {
+        "type": document.getElementById("roomType"),
+        "bedroom": document.getElementById("bedroom"),
+        "bathroom": document.getElementById("bathroom"),
+        "parking": document.getElementById("parking"),
+        "laundry": document.getElementById("laundry"),
+        "lowerBound": document.getElementById("lBound"),
+        "upperBound": document.getElementById("uBound"),
+        "accessibility": document.getElementById("accessibility")
+    };
+</script>
+</body>
+</html>

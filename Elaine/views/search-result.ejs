@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+</head>
+<body>
+<h1>Tenant Matches keywords</h1>
+<a href="/dashboard.html">Back to Dashboard</a><br>
+<a href="/member.html">New Search</a>
+<% if (students.length > 0) { %>
+    <ul>
+        <form action="/search-result" method="post">
+            <% for (let x = 0; x < students.length; x++) { %>
+                <li>
+                    <label for="<%= x %>"><%= students[x].fName %> <%= students[x].lName %></label>
+                    <input type="checkbox" id="<%= x %>" name="member" value="<%= students[x].uid_ %>">
+                </li>
+                <% } %><br>
+            <button id="add" type="submit">Confirm</button>
+        </form>
+    </ul>
+<% } else { %>
+    <p>No students available found.</p>
+<% } %>
+</body>
+</html>

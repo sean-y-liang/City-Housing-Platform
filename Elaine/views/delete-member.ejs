@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Group Member(s)</title>
+    <link rel="icon" type="image/x-icon" href="/Elaine/Queens.png">
+</head>
+<body>
+<h1>Delete member(s)</h1>
+<a href="/dashboard.html">Back to Dashboard</a>
+<form action="/delete-member" method="post">
+    <% for (let x = 0; x < members.length; x++) { %>
+        <label for="<%= x %>"><%= members[x].fName %> <%= members[x].lName %></label>
+        <input type="checkbox" id="<%= x %>" name="member" value="<%= members[x].uid_%>"><br>
+    <% } %>
+    <br><button type="submit">Delete Selected Members</button>
+</form>
+</body>
+</html>
