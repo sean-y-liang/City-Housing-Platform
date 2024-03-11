@@ -31,6 +31,7 @@ html {
     background-color: #ffffff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+    overflow-x: hidden; 
     padding: 20px;
     box-sizing: border-box;
 }
