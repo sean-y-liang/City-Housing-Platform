@@ -7,7 +7,7 @@ drop table if exists ownr ;
 drop table if exists own ;
 drop table if exists manager ;
 drop table if exists manage ;
-drop table if exists Picturee_files;
+drop table if exists Picture_files;
 drop table if exists Furnitures;
 
 
@@ -28,59 +28,65 @@ CREATE TABLE property (
     number_of_people int,
     private_Kitchen bool,
     
-    date_listed date
+    date_listed varchar(255)
 );
+select house_name from property join own on property.PID=own.PID where own.OID = '323628';
+select house_name from select house_name from property join own on property.PID=own.PID where own.OID ='323628'
+select * from property;
+select * from own;
+select PID from property where house_name='sage';
+
 INSERT INTO property (house_name,Address,
 house_type,Monthly_rent,
-bedroom,bathroom,parking,laundry,fenced_yard,Detached,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,Floor,
 elevator,number_of_people,private_Kitchen,date_listed
 )
 VALUES ('334 Kingscourt Ave','334 Kingscourt Ave, # 1, Kingston, ON K7K 4R5',
 'Apartment',2349,
-3,1,true,'shared',false,'yes',
+3,1,true,'shared',false,'yes',0,
 false,null,true,'2023-11-7');
 
 INSERT INTO property (house_name,Address,
 house_type,Monthly_rent,
-bedroom,bathroom,parking,laundry,fenced_yard,Detached,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,Floor,
 elevator,number_of_people,private_Kitchen,date_listed
 )
 VALUES ('631 Aylmer Cres','631 Aylmer Cres, # 2, Kingston, ON K7M 6K3',
 'Apartment',1899,
-2,1,true,'shared',true,'yes',
+2,1,true,'shared',true,'yes',0,
 false,null,true,'2023-11-13');
 
 INSERT INTO property (house_name,Address,
 house_type,Monthly_rent,
-bedroom,bathroom,parking,laundry,fenced_yard,Detached,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,Floor,
 elevator,number_of_people,private_Kitchen,date_listed
 )
 VALUES ('136 Chatham St', '136 Chatham St, Kingston, ON K7K 4H4',
 'Apartment',3000,
-2,1,true,'ensuite',true,'yes',
+2,1,true,'ensuite',true,'yes',0,
 false,null,true,'2024-1-12');
 
 INSERT INTO property (house_name,Address,
 house_type,Monthly_rent,
-bedroom,bathroom,parking,laundry,fenced_yard,Detached,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,Floor,
 elevator,number_of_people,private_Kitchen,date_listed
 )
 VALUES ('1145 Coverdale Dr', '1145 Coverdale Dr, Kingston, ON K7M 8X7',
 'Apartment',3000,
-3,1,true,'ensuite',true,'yes',
+3,1,true,'ensuite',true,'yes',0,
 false,null,true,'2024-1-11');
 
 INSERT INTO property (house_name,Address,
 house_type,Monthly_rent,
-bedroom,bathroom,parking,laundry,fenced_yard,Detached,
+bedroom,bathroom,parking,laundry,fenced_yard,Detached,Floor,
 elevator,number_of_people,private_Kitchen,date_listed
 )
 VALUES ('139 Mowat Ave', '139 Mowat Ave, Kingston, ON K7M 1K5',
 'Single Family Residence',2700,
-3,1,true,'shared',true,'yes',
+3,1,true,'shared',true,'yes',0,
 false,null,true,'2024-1-4');
 
-
+select * from ownr;
 CREATE TABLE ownr (
 	OID varchar(255),
 	Fname varchar(255),
@@ -100,6 +106,7 @@ VALUES ('QQ004', 'Yan','Junchi','3659913859','1145 Coverdale Dr, Kingston, ON K7
 INSERT INTO ownr (OID,Fname,Lname,PhoneNo,Adress)
 VALUES ('QQ005', 'Zhang','Naifu','7789020800','139 Mowat Ave, Kingston, ON K7M 1K5');
 
+select * from own;
 create table own(
 	PID int,
     OID varchar(255)
@@ -126,13 +133,14 @@ INSERT INTO manager (PhoneNumber,Fname,Lname)
 VALUES ('7785382627','Jerry','Sanchez');
 
 select * from manager;
-INSERT INTO manage (PID,PhoneNumber,StartYear,EndDate) values ('20020425','3659927636','2002/04/25','2024/1/13');
-
+INSERT INTO manage (PID,PhoneNumber,StartYear,EndDate) values ('20020425','3659927636','20020425','20240113');
+select * from manage;
+select house_name, property.PID from property join manage on property.PID=manage.PID where manage.PhoneNumber = '3659927636';
 create table manage(
-	PID int,
+	house_name varchar(255),
     PhoneNumber varchar(255),
-    StartYear date,
-    EndDate date
+    StartYear varchar(255),
+    EndDate varchar(255)
 );
 
 INSERT INTO manage (PID, PhoneNumbaer, StartYear, EndDate)
@@ -146,76 +154,98 @@ VALUES (4,'7785382627','2023-08-22','2025-06-23');
 INSERT INTO manage (PID, PhoneNumbaer, StartYear, EndDate)
 VALUES (5,'3658364726','2023-04-25','2025-07-11');
 
-create table Picturee_files(
+select * from Picture_files;
+create table Picture_files(
 	PID int,
-    File_name varchar(255)
+    File_name1 varchar(255),
+    File_name2 varchar(255),
+    File_name3 varchar(255),
+    File_name4 varchar(255),
+    File_name5 varchar(255),
+    File_name6 varchar(255),
+    File_name7 varchar(255),
+    File_name8 varchar(255),
+    File_name9 varchar(255),
+    File_name10 varchar(255)
 );
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (1, 'p1_001.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (1, 'p1_002.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (1, 'p1_003.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (1, 'p1_004.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (1, 'p1_005.webp');
 
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (2, 'p2_001.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (2, 'p2_002.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (2, 'p2_003.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (2, 'p2_004.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (2, 'p2_005.webp');
 
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (3, 'p3_001.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (3, 'p3_002.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (3, 'p3_003.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (3, 'p3_004.webp');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (3, 'p3_005.webp');
 
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (4, 'p4_001.png');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (4, 'p4_002.jpg');
 
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (5, 'p5_001.png');
-INSERT INTO Picturee_files (PID,File_name
+INSERT INTO Picture_files (PID,File_name
 )
 VALUES (5, 'p5_002.jpg');
 
 create table Furnitures(
 	PID int,
-    Furniture_name varchar(255)
+    Furniture_name1 varchar(255),    
+    Furniture_name2 varchar(255),
+    Furniture_name3 varchar(255),
+    Furniture_name4 varchar(255),
+    Furniture_name5 varchar(255),
+    Furniture_name6 varchar(255),
+    Furniture_name7 varchar(255),
+    Furniture_name8 varchar(255),
+    Furniture_name9 varchar(255),
+    Furniture_name10 varchar(255)
+
 );
+select * from Furnitures;
+
 INSERT INTO Furnitures (PID,Furniture_name
 )
 VALUES (1, 'bed');
@@ -293,7 +323,17 @@ CREATE TABLE Credential (
     
    
 
+INSERT INTO property (house_name,Address, house_type,Monthly_rent,
+bedroom,bathroom,
+parking,laundry,fenced_yard,Detached,
+Floor,elevator,number_of_people,private_Kitchen,date_listed) 
+values ('sage kingston','unit 610-652 Princess Street, Kingston','apartment','1900',
+'1','1',
+true,'yes',false,'1',
+'0',true,'0',true,'20020425');
 
 
+INSERT INTO property (house_name,Address, house_type,Monthly_rent,bedroom,bathroom,parking,laundry,fenced_yard,Detached,floor,elevator,number_of_people,private_Kitchen,date_listed) 
+values ('','','apartment','1900','1','1',true,'yes',false,'1','0',ture,'0',true,'20020425');
 
 
