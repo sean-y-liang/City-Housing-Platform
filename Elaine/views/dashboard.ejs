@@ -47,10 +47,12 @@
                 <% } %>
                 <button class="button" onclick="location.href='/delete-member.html'">Delete Group Member(s)</button>
             <% } %>
-            <button class="button" type="submit" formaction="/leave-group" formmethod="post">Leave Group</button>
-            <button class="button" onclick="location.href='/modify-group.html'">Modify group</button>
-            <button class="button" onclick="location.href='/member.html'">Add Member(s)</button>
-            <button class="button" onclick="location.href='/rent.html'">Search for Home</button>
+            <form id="leave-group" action="/leave-group" method="post">
+                <button class="button" type="submit">Leave Group</button>
+            </form><br>
+            <button class="button" onclick="location.href='/modify-group.html'">Modify group</button><br><br>
+            <button class="button" onclick="location.href='/member.html'">Add Member(s)</button><br><br>
+            <button class="button" onclick="location.href='/rent.html'">Search for Home</button><br>
     </div>
     <div class="column single-column">
         <table>
