@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+    <link rel="stylesheet" type="text/css" href="/style.css"/>
+</head>
+<body>
+<nav>
+    <img src="/Queens.png" alt="Logo" width="70">
+    <h1>Kingston Housing</h1>
+    <h2>Home Search Result</h2>
+    <button class="button" onclick="location.href='/dashboard.html'">Dashboard</button>
+    <% if (student.gid_ !== null) { %>
+        <button class="button" onclick="location.href='/modify-group.html'">Modify Group</button>
+        <button class="button" onclick="location.href='/member.html'">Add Member(s)</button>
+        <button class="button" onclick="location.href='/rent.html'">Search Home</button>
+    <% } else { %>
+        <button class="disabled">Modify Group</button>
+        <button class="disabled">Add Member(s)</button>
+        <button class="disabled">Search Home</button>
+    <% } %>
+    <% if (members.length > 0) { %>
+        <button class="button" id="deleteMember" onclick="location.href='/delete-member.html'">Delete Member(s)</button>
+    <% } else { %>
+        <button class="disabled" onclick="location.href='javascript:void(0)'">Delete Member(s)</button>
+    <% } %>
+</nav><br>
+<div class="container">
+    <div class="column single-column">
+        <h2>Exact Search</h2>
+        <% if (exact.length > 0) { %>
+            <% for (let x = 0; x < exact.length; x++) { %>
+                <p>Property Name: <%= exact[x].name %></p>
+            <ul>
+                <li>Property Address: <%= exact[x].address %></li>
+                <li>Property Type: <%= exact[x].homeType %></li>
+                <li>Number of Bedroom(s): <%= exact[x].bedroom %></li>
+                <li>Number of Bathroom(s): <%= exact[x].bathroom %></li>
+                <li>Number of Parking(s): <%= exact[x].parking %></li>
+                <li>Laundry Type: <%= exact[x].laundry %></li>
+                <li>Monthly Rent: <%= exact[x].rent %></li>
+                <% if (exact[x].homeType === "house") { %>
+                    <li>Yard Type: <%= exact[x].yard %></li>
+                    <li>House Type: <%= exact[x].houseType %></li>
+                <% } else if (exact[x].homeType === "apartment") { %>
+                    <li>Maximum Floor: <%= exact[x].floor %></li>
+                    <li>Have Elevator: <%= exact[x].elevator %></li>
+                <% } else if (exact[x].homeType === "room") {  %>
+                    <li>Number of People: <%= exact[x].numberPeople %></li>
+                <% } %>
+                <br>
+                <% } %>
+            </ul>
+        <% } else { %>
+            <p>No property found.</p>
+        <% } %>
+    </div>
+    <div class="column single-column">
+        <h2>Fuzzy Search</h2>
+        <% if (fuzzy.length > 0) { %>
+            <ul>
+            <% for (let x = 0; x < fuzzy.length; x++) { %>
+                <h3>Property Name: <%= fuzzy[x].name %></h3>
+                <li>Property Address: <%= fuzzy[x].address %></li>
+                <li>Property Type: <%= fuzzy[x].homeType %></li>
+                <li>Number of Bedroom(s): <%= fuzzy[x].bedroom %></li>
+                <li>Number of Bathroom(s): <%= fuzzy[x].bathroom %></li>
+                <li>Number of Parking(s): <%= fuzzy[x].parking %></li>
+                <li>Laundry Type: <%= fuzzy[x].laundry %></li>
+                <li>Monthly Rent: <%= fuzzy[x].rent %></li>
+                <% if (fuzzy[x].homeType === "house") { %>
+                    <li>Yard Type: <%= fuzzy[x].yard %></li>
+                    <li>House Type: <%= fuzzy[x].houseType %></li>
+                <% } else if (fuzzy[x].homeType === "apartment") { %>
+                    <li>Maximum Floor: <%= fuzzy[x].floor %></li>
+                    <li>Have Elevator: <%= fuzzy[x].elevator %></li>
+                <% } else if (fuzzy[x].homeType === "room") {  %>
+                    <li>Number of People: <%= fuzzy[x].fuzzy %></li>
+                <% } %>
+                <br>
+                <% } %>
+            </ul>
+        <% } else { %>
+            <p>No property found.</p>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>
