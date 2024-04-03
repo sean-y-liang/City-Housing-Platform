@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Modify group</title>
+    <title>Find Your Home</title>
     <link rel="stylesheet" type="text/css" href="/style.css"/>
 </head>
 <body>
 <nav>
     <img src="/Queens.png" alt="Logo" width="70">
     <h1>Kingston Housing</h1>
-    <h2>Preferences</h2>
+    <h2>Search for home</h2>
     <button class="button" onclick="location.href='/dashboard.html'">Dashboard</button>
     <% if (student.gid_ !== null) { %>
         <button class="button" onclick="location.href='/modify-group.html'">Modify Group</button>
@@ -28,107 +28,101 @@
 </nav><br>
 <div class="container">
     <div class="column single-column">
-        <form action="/modify-group" method="post">
+        <form action="/rent" method="post">
             <table>
-                <tr id="titleR">
+                <tr id="headerR">
                     <th>Requirements</th>
                     <th>Values</th>
+                    <th>Must match?</th>
                 </tr>
                 <tr id="minRentR">
                     <th><label for="minRent">Minimum Rent:</label></th>
-                    <th><input type="number" name="minRent" id="minRent"></th>
+                    <th><input type="number" name="minRent" id="minRent" value="<%= student.minRent %>>"></th>
+                    <th><input type="checkbox" name="mustMinRent" id="mustMinRent" value="yes"></th>
                 </tr>
                 <tr id="maxRentR">
                     <th><label for="maxRent">Maximum Rent:</label></th>
-                    <th><input type="number" name="maxRent" id="maxRent"></th>
+                    <th><input type="number" name="maxRent" id="maxRent" value="<%= student.maxRent %>"></th>
+                    <th><input type="checkbox" name="mustMaxRent" id="mustMaxRent" value="yes"></th>
                 </tr>
                 <tr id="bedroomR">
                     <th><label for="bedroom">Bedroom:</label></th>
-                    <th><input type="number" name="bedroom" id="bedroom"></th>
+                    <th><input type="number" name="bedroom" id="bedroom" value="<%= student.bedroom %>"></th>
+                    <th><input type="checkbox" name="mustBedroom" id="mustBedroom" value="yes"></th>
                 </tr>
                 <tr id="bathroomR">
                     <th><label for="bathroom">Bathroom:</label></th>
-                    <th><input type="number" name="bathroom" id="bathroom"></th>
+                    <th><input type="number" name="bathroom" id="bathroom" value="<%= student.bathroom %>"></th>
+                    <th><input type="checkbox" name="mustBathroom" id="mustBathroom" value="yes"></th>
                 </tr>
                 <tr id="parkingR">
                     <th><label for="parking">Parking Number:</label></th>
-                    <th><input type="number" name="parking" id="parking"></th>
+                    <th><input type="number" name="parking" id="parking" value="<%= student.parking %>"></th>
+                    <th><input type="checkbox" name="mustParking" id="mustParking" value="yes"></th>
                 </tr>
                 <tr id="kitchenR">
                     <th><label for="kitchen">Kitchen:</label></th>
                     <th><select name="kitchen" id="kitchen">
-                            <option value="shared" selected="selected">Shared</option>
+                            <option value="<%= student.kitchen %>" selected="selected">Default: <%= student.kitchen %></option>
+                            <option value="shared">Shared</option>
                             <option value="private">Private</option>
                         </select></th>
-                </tr>
-                <tr id="laundryR">
-                    <th><label for="laundry">Laundry:</label></th>
-                    <th>
-                        <select name="laundry" id="laundry">
-                            <option value="ensuite">Ensuite</option>
-                            <option value="shared" selected="selected">Shared</option>
-                        </select>
-                    </th>
-                </tr>
-                <tr id="accessibilityR">
-                    <th><label for="accessibility">Accessibility:</label></th>
-                    <th><select name="accessibility" id="accessibility">
-                            <option value="0" selected="selected">No</option>
-                            <option value="1">Yes</option>
-                        </select></th>
+                    <th><input type="checkbox" name="mustKitchen" id="mustKitchen" value="yes"></th>
                 </tr>
                 <tr id="homeTypeR">
                     <th><label for="homeType">Home Type: </label></th>
                     <th><select name="homeType" id="homeType" onchange="showOptions()">
-                            <option value="" selected="selected">---</option>
+                            <option value="<%= student.homeType %>" selected="selected">Default: <%= student.homeType %></option>
                             <option value="house">House</option>
                             <option value="apartment">Apartment</option>
                             <option value="room">Room</option>
                         </select></th>
+                    <th><input type="checkbox" name="mustHomeType" id="mustHomeType" value="yes"></th>
                 </tr>
                 <tr id="yardR" class="hidden">
                     <th><label for="yard">Fenced Yard:</label></th>
-                    <th>
-                        <select name="yard" id="yard">
-                            <option value="" selected="selected"></option>
+                    <th><select name="yard" id="yard">
+                            <option value="<%= student.yard %>" selected="selected">Default: <%= student.yard %></option>
                             <option value="0">No</option>
                             <option value="1">Yes</option>
-                        </select>
-                    </th>
+                        </select></th>
+                    <th><input type="checkbox" name="mustYard" id="mustYard" value="yes"></th>
                 </tr>
                 <tr id="houseTypeR" class="hidden">
                     <th><label for="houseType">House Type:</label></th>
-                    <th>
-                        <select name="houseType" id="houseType">
-                            <option value="" selected="selected">---</option>
+                    <th><select name="houseType" id="houseType">
+                            <option value="<%= student.houseType %>" selected="selected">Default: <%= student.houseType %></option>
                             <option value="detached">Detached</option>
                             <option value="semi">Semi</option>
-                        </select>
-                    </th>
+                        </select></th>
+                    <th><input type="checkbox" name="mustHouseType" id="mustHouseType" value="yes"></th>
                 </tr>
                 <tr id="floorR" class="hidden">
                     <th><label for="floor">Floor:</label></th>
-                    <th><input type="number" name="floor" id="floor"></th>
+                    <th><input type="number" name="floor" id="floor" value="<%= student.floor %>"></th>
+                    <th><input type="checkbox" name="mustFloor" id="mustFloor" value="yes"></th>
                 </tr>
                 <tr id="elevatorR" class="hidden">
                     <th><label for="elevator">Elevator</label></th>
-                    <th>
-                        <select name="elevator" id="elevator">
+                    <th><select name="elevator" id="elevator">
+                            <option value="<%= student.elevator%>" selected="selected">Default: <%= student.elevator %></option>
                             <option value="0">No</option>
-                            <option value="1" selected="selected">Yes</option>
-                        </select>
-                    </th>
+                            <option value="1">Yes</option>
+                        </select></th>
+                    <th><input type="checkbox" name="mustElevator" id="mustElevator" value="yes"></th>
                 </tr>
                 <tr id="countPeopleR" class="hidden">
                     <th><label for="countPeople">Number of People:</label></th>
-                    <th><input type="number" name="countPeople" id="countPeople"></th>
+                    <th><input type="number" name="countPeople" id="countPeople" value="<%= student.countPeople %>"></th>
+                    <th><input type="checkbox" name="mustCountPeople" id="mustCountPeople" value="yes"></th>
                 </tr>
             </table>
             <br>
-            <button class="button" type="submit">Save change(s)</button>
+            <button class="button" type="submit">Search for home</button>
         </form>
     </div>
 </div>
+
 <script>
     function showOptions() {
         const selectedOption = document.getElementById("homeType").value;
