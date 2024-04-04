@@ -47,7 +47,7 @@
                 <% } %>
                 <button class="button" onclick="location.href='/delete-member.html'">Delete Group Member(s)</button>
             <% } %>
-            <form id="leave-group" action="/leave-group" method="post">
+            <form action="/leave-group" method="post">
                 <button class="button" type="submit">Leave Group</button>
             </form><br>
             <button class="button" onclick="location.href='/modify-group.html'">Modify group</button><br><br>
@@ -130,6 +130,9 @@
     let message = params.get('message');
     if (message === "created") {
         alert("Successfully created the group.");
+    }
+    if (message === "nocreated") {
+        alert("Fail to create the group.")
     }
     if (message === "left") {
         alert("Successfully left the group.")
