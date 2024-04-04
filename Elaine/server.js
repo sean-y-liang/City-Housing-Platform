@@ -88,7 +88,7 @@ app.post('/new-group', function (req, res) {
                     con.query(sql, function (err, results) {
                         if (err) throw err;
                         if (results.length !== 0) {
-                            res.redirect('dashboard.html/?message=duplicate', {student: student, members: members});
+                            res.redirect('/dashboard.html/?message=duplicate');
                         }
                     })
                     sql = "SELECT gid FROM `groups`";
@@ -102,7 +102,7 @@ app.post('/new-group', function (req, res) {
                             sql = "INSERT INTO `grouping` (gid, uid) VALUES ('" + GID + "', '" + UID + "')";
                             con.query(sql, function (err) {
                                 if (err) throw err;
-                                res.redirect('dashboard.html/?message=created', {student: student, members: members});
+                                res.redirect('/dashboard.html/?message=created');
                             })
                         });
                     })
@@ -110,7 +110,7 @@ app.post('/new-group', function (req, res) {
             }
         }
         catch (err) {
-            res.render('dashboard.ejs', { student: student, members: members });
+            res.redirect('/dashboard.html/?message-nocreated');
         }
     })
 })
@@ -463,12 +463,12 @@ app.get('/rent.html', function (req, res) {
                 con.query(sql, function (err, results) {
                     if (err) throw err;
                     members = results;
-                    res.render('rent.ejs', {student: student, members: members});
+                    res.render('rent.html', {student: student, members: members});
                 });
             }
         }
         catch (e) {
-            res.redirect('dashboard.html', { student: student, members: members })
+            res.redirect('dashboard.html')
         }
     })
 })
