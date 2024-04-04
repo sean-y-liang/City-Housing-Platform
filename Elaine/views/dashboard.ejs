@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css"/>
+</head>
+<body>
+<nav>
+    <img src="/Queens.png" alt="Logo" width="70">
+    <h1>Kingston Housing</h1>
+    <h2>Dashboard</h2>
+    <button class="button" onclick="location.href='/dashboard.html'">Dashboard</button>
+    <% if (student.gid_ !== null) { %>
+        <button class="button" onclick="location.href='/modify-group.html'">Modify Group</button>
+        <button class="button" onclick="location.href='/member.html'">Add Member(s)</button>
+        <button class="button" onclick="location.href='/rent.html'">Search Home</button>
+    <% } else { %>
+        <button class="disabled">Modify Group</button>
+        <button class="disabled">Add Member(s)</button>
+        <button class="disabled">Search Home</button>
+    <% } %>
+    <% if (members.length > 0) { %>
+        <button class="button" id="deleteMember" onclick="location.href='/delete-member.html'">Delete Member(s)</button>
+    <% } else { %>
+        <button class="disabled" onclick="location.href='javascript:void(0)'">Delete Member(s)</button>
+    <% } %>
+</nav><br>
+<div class="container">
+    <div class="column single-column">
+        <h1>Welcome, <%= student.fName %>!</h1>
+        <p>Your ID is: <b><%= student.uid_ %></b></p><% if (student.gid_ === null) { %>
+            <form action="/new-group" method="post">
+                <button class="button" type="submit">Create New Group</button>
+            </form>
+        <% } else { %>
+            You are in group: <b><%= student.gid_ %></b><br>
+            <p>Current group member:</p>
+            <% if (members.length === 0) { %>
+                <p><span style="color: #aaaaaa">There is no member in your group now.</span></p>
+            <% } %>
+            <% if (members.length !== 0) { %>
+                <% for (let x = 0; x < members.length; x++) { %>
+                    <ul>
+                        <li><%= members[x].fName %> <%= members[x].lName %></li>
+                    </ul>
+                <% } %>
+                <button class="button" onclick="location.href='/delete-member.html'">Delete Group Member(s)</button>
+            <% } %>
+            <form action="/leave-group" method="post">
+                <button class="button" type="submit">Leave Group</button>
+            </form><br>
+            <button class="button" onclick="location.href='/modify-group.html'">Modify group</button><br><br>
+            <button class="button" onclick="location.href='/member.html'">Add Member(s)</button><br><br>
+            <button class="button" onclick="location.href='/rent.html'">Search for Home</button><br>
+    </div>
+    <div class="column single-column">
+        <table>
+            <tr>
+                <th colspan="2">Group Preferences</th>
+            </tr>
+            <tr id="minRentR">
+                <th>Minimum Rent:</th>
+                <th><%= student.minRent %></th>
+            </tr>
+            <tr id="maxRentR">
+                <th>Maximum Rent:</th>
+                <th><%= student.maxRent %></th>
+            </tr>
+            <tr id="bedroomR">
+                <th>Bedroom:</th>
+                <th><%= student.bedroom %></th>
+            </tr>
+            <tr id="bathroomR">
+                <th>Bathroom:</th>
+                <th><%= student.bathroom %></th>
+            </tr>
+            <tr id="parkingR">
+                <th>Parking Slot:</th>
+                <th><%= student.parking %></th>
+            </tr>
+            <tr id="kitchenR">
+                <th>Kitchen:</th>
+                <th><%= student.kitchen %></th>
+            </tr>
+            <tr id="laundry">
+                <th>Laundry:</th>
+                <th><%= student.laundry %></th>
+            </tr>
+            <tr id="accessibility">
+                <th>Accessibility:</th>
+                <th><% if (student.accessibility === 1) {%> Yes <%} else {%> No <%} %></th>
+            </tr>
+            <tr id="homeTypeR">
+                <th>homeType: </th>
+                <th><%= student.homeType %></th>
+            </tr>
+            <% if (student.homeType === "house") { %>
+                <tr id="yardR">
+                    <th>Fenced Yard:</th>
+                    <th><%= student.yard %></th>
+                </tr>
+                <tr id="houseTypeR">
+                    <th>House Type:</th>
+                    <th><%= student.houseType %></th>
+                </tr>
+            <% } %>
+            <% if (student.homeType === "apartment") { %>
+                <tr id="floorR">
+                    <th>Floor:</th>
+                    <th><%= student.floor %></th>
+                </tr>
+                <tr id="elevatorR">
+                    <th>Elevator:</th>
+                    <th><%= student.elevator %></th>
+                </tr>
+            <% } %>
+            <% if (student.homeType === "room") { %>
+                <tr id="countPeopleR">
+                    <th>Number of People:</th>
+                    <th><%= student.countPeople %></th>
+                </tr>
+            <% } %>
+        </table>
+        <% } %>
+    </div>
+</div>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    let message = params.get('message');
+    if (message === "created") {
+        alert("Successfully created the group.");
+    }
+    if (message === "nocreated") {
+        alert("Fail to create the group.")
+    }
+    if (message === "left") {
+        alert("Successfully left the group.")
+    }
+    if (message === "noleft") {
+        alert("Fail to left the group.")
+    }
+    if (message === "duplicated") {
+        alert("Already in a group.")
+    }
+    if (message === "added") {
+        alert("Member successfully added.")
+    }
+    if (message === "noadded") {
+        alert("No member added.")
+    }
+    if (message === "deleted") {
+        alert("Member(s) successfully deleted.")
+    }
+    if (message === "failed") {
+        alert("Failed to delete member(s).")
+    }
+    if (message === "changed") {
+        alert("Group preference changes.")
+    }
+    if (message === "canceled") {
+        alert("Group preference change canceled.")
+    }
+</script>
+</body>
+</html>
