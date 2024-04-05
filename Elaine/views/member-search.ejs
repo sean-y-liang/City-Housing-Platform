@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+    <link rel="stylesheet" type="text/css" href="/style.css"/>
+</head>
+<body>
+<nav>
+    <img src="/Queens.png" alt="Logo" width="70">
+    <h1>Kingston Housing</h1>
+    <h2>Member Search</h2>
+    <button class="button" onclick="location.href='/dashboard.html'">Dashboard</button>
+    <% if (student.gid_ !== null) { %>
+        <button class="button" onclick="location.href='/modify-group.html'">Modify Group</button>
+        <button class="button" onclick="location.href='/member.html'">Add Member(s)</button>
+        <button class="button" onclick="location.href='/rent.html'">Search Home</button>
+    <% } else { %>
+        <button class="disabled">Modify Group</button>
+        <button class="disabled">Add Member(s)</button>
+        <button class="disabled">Search Home</button>
+    <% } %>
+    <% if (members.length > 0) { %>
+        <button class="button" id="deleteMember" onclick="location.href='/delete-member.html'">Delete Member(s)</button>
+    <% } else { %>
+        <button class="disabled" onclick="location.href='javascript:void(0)'">Delete Member(s)</button>
+    <% } %>
+</nav><br>
+<div class="container">
+    <div class="column single-column">
+        <% if (students.length > 0) { %>
+            <form action="/member-search" method="post">
+                <ul>
+                    <% for (let x = 0; x < students.length; x++) { %>
+                        <li>
+                            <label for="<%= x %>"><%= students[x].fName %> <%= students[x].lName %></label>
+                            <input type="checkbox" id="<%= x %>" name="member" value="<%= students[x].uid_ %>">
+                        </li>
+                    <% } %>
+                </ul>
+                <button class="button" id="add" type="submit">Confirm</button>
+            </form>
+        <% } else { %>
+            <p>No students available found.</p>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>
