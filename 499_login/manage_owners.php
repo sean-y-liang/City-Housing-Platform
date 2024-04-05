@@ -7,17 +7,18 @@
     <title>Owner Management</title>
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>OID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Phone Number</th>
-        <th>Address</th>
-        <th>Action</th>
-    </tr>
-    </thead>
+    <button><a href="adm_dash.html">Return</a></button>
+    <table>
+        <thead>
+        <tr>
+            <th>OID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Action</th>
+        </tr>
+        </thead>
     <tbody>
     <?php include 'init.php';
     $sql = "SELECT * FROM owner";

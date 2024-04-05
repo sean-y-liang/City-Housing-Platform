@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <button><a class="blink" href="adm_dash.html">Home</a></button>
+    <div class="banner">
+        <img src="kst_logo.png" alt="Logo" class="logo">
+        <h1>Welcome to Rent Here!</h1>
+    </div>
     <div class="login-container">
         <form action="login.php" method="post">
-            <h2>Login</h2>
+            <h2>Sign in to continue</h2>
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -18,8 +23,9 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
-            <p>Don't have an account? <a href="register.html">Create One Here!</a>.</p>
+            <button type="submit">Sign in</button>
+            <p>New to Here? <a href="register.html">Create an account!</a></p>
+            <p>Forgot password? <a href="change_pwd.html">Click Here!</a></p>
         </form>
     </div>
 </body>

@@ -1,327 +1,431 @@
-/*
- Navicat Premium Data Transfer
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:33066
+-- Generation Time: Mar 25, 2024 at 02:49 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
- Source Server         : mysql8.0-localhost
- Source Server Type    : MySQL
- Source Server Version : 80036
- Source Host           : localhost:33066
- Source Schema         : cisc_499
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
- Target Server Type    : MySQL
- Target Server Version : 80036
- File Encoding         : 65001
 
- Date: 04/03/2024 11:40:14
-*/
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+--
+-- Database: `cisc_499`
+--
 
--- ----------------------------
--- Table structure for credentials
--- ----------------------------
-DROP TABLE IF EXISTS `credentials`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `credentials`
+--
+
 CREATE TABLE `credentials` (
-  `UID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `password_` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `role_` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  PRIMARY KEY (`UID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `UID` varchar(255) NOT NULL,
+  `password_` varchar(255) DEFAULT NULL,
+  `role_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of credentials
--- ----------------------------
-BEGIN;
-COMMIT;
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for make_group
--- ----------------------------
-DROP TABLE IF EXISTS `make_group`;
+--
+-- Table structure for table `make_group`
+--
+
 CREATE TABLE `make_group` (
-  `UID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `GID` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  PRIMARY KEY (`UID`,`GID`) USING BTREE,
-  KEY `GID` (`GID`) USING BTREE,
-  CONSTRAINT `make_group_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `students` (`UID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `make_group_ibfk_2` FOREIGN KEY (`GID`) REFERENCES `rental_group` (`GID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `UID` varchar(255) NOT NULL,
+  `GID` varchar(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of make_group
--- ----------------------------
-BEGIN;
-INSERT INTO `make_group` (`UID`, `GID`) VALUES ('aa000', '0000');
-INSERT INTO `make_group` (`UID`, `GID`) VALUES ('aa001', '0000');
-INSERT INTO `make_group` (`UID`, `GID`) VALUES ('aa002', '0001');
-INSERT INTO `make_group` (`UID`, `GID`) VALUES ('aa003', '0001');
-INSERT INTO `make_group` (`UID`, `GID`) VALUES ('aa004', '0001');
-COMMIT;
+--
+-- Dumping data for table `make_group`
+--
 
--- ----------------------------
--- Table structure for manage
--- ----------------------------
-DROP TABLE IF EXISTS `manage`;
+INSERT INTO `make_group` (`UID`, `GID`) VALUES
+('aa000', '0000'),
+('aa001', '0000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `manage`
+--
+
 CREATE TABLE `manage` (
-  `PID` int NOT NULL,
-  `phone_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `start_year` int DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
-  PRIMARY KEY (`PID`,`phone_number`) USING BTREE,
-  KEY `phone_number` (`phone_number`) USING BTREE,
-  CONSTRAINT `manage_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `manage_ibfk_2` FOREIGN KEY (`phone_number`) REFERENCES `manager` (`phone_number`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `PID` int(11) NOT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `start_year` int(11) DEFAULT NULL,
+  `end_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of manage
--- ----------------------------
-BEGIN;
-COMMIT;
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for manager
--- ----------------------------
-DROP TABLE IF EXISTS `manager`;
+--
+-- Table structure for table `manager`
+--
+
 CREATE TABLE `manager` (
-  `phone_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `first_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `last_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '',
-  PRIMARY KEY (`phone_number`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `phone_number` varchar(255) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `password` varchar(200) DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of manager
--- ----------------------------
-BEGIN;
-INSERT INTO `manager` (`phone_number`, `first_name`, `last_name`, `password`) VALUES ('13012341234', NULL, NULL, '123456');
-INSERT INTO `manager` (`phone_number`, `first_name`, `last_name`, `password`) VALUES ('130123412341', NULL, NULL, '123456');
-COMMIT;
+--
+-- Dumping data for table `manager`
+--
 
--- ----------------------------
--- Table structure for own
--- ----------------------------
-DROP TABLE IF EXISTS `own`;
+INSERT INTO `manager` (`phone_number`, `first_name`, `last_name`, `password`) VALUES
+('123123123', '111', '222', '12345678'),
+('13012341234', NULL, NULL, '123456'),
+('130123412341', NULL, NULL, '123456'),
+('13012345555', NULL, NULL, '123456'),
+('test', NULL, NULL, '123456');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `own`
+--
+
 CREATE TABLE `own` (
-  `PID` int NOT NULL,
-  `OID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  PRIMARY KEY (`PID`,`OID`) USING BTREE,
-  KEY `OID` (`OID`) USING BTREE,
-  CONSTRAINT `own_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `own_ibfk_2` FOREIGN KEY (`OID`) REFERENCES `owner` (`OID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `PID` int(11) NOT NULL,
+  `OID` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of own
--- ----------------------------
-BEGIN;
-COMMIT;
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for owner
--- ----------------------------
-DROP TABLE IF EXISTS `owner`;
+--
+-- Table structure for table `owner`
+--
+
 CREATE TABLE `owner` (
-  `OID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `first_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `last_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `phone_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  PRIMARY KEY (`OID`) USING BTREE,
-  UNIQUE KEY `phone_number` (`phone_number`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `OID` varchar(255) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of owner
--- ----------------------------
-BEGIN;
-COMMIT;
+--
+-- Dumping data for table `owner`
+--
 
--- ----------------------------
--- Table structure for pictures
--- ----------------------------
-DROP TABLE IF EXISTS `pictures`;
+INSERT INTO `owner` (`OID`, `first_name`, `last_name`, `phone_number`, `address`) VALUES
+('7', NULL, NULL, NULL, NULL),
+('9', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pictures`
+--
+
 CREATE TABLE `pictures` (
-  `PID` int NOT NULL,
-  `file_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  PRIMARY KEY (`PID`,`file_name`) USING BTREE,
-  CONSTRAINT `pictures_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `PID` int(11) NOT NULL,
+  `file_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of pictures
--- ----------------------------
-BEGIN;
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/422065609_2129267960757813_6523283802791891132_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/422615666_2129270637424212_4848413286391023737_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424589556_2129267987424477_5483036318190958751_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424660732_2129267984091144_6145162977533956175_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424660989_2129267957424480_289666872341173166_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424687299_2129267994091143_7047179514255385314_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424736058_2129267977424478_2610722601137708788_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424786516_2129267990757810_7085242218693598515_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424965808_2129267980757811_5299665170192949980_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424990016_2129267997424476_6170454248064395425_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420537612_341553868787509_7541008154464351356_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420538353_341553955454167_1219281069889944169_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420539241_341553945454168_3488689691358054556_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420539590_341553988787497_5043197548815890386_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420539778_341553975454165_1857321005508351790_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420539781_341554048787491_3922784051304451867_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420540441_341554002120829_6367095456849384089_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420542874_341553865454176_6224725072827078646_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420563041_341554042120825_1184932731889740600_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (2, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/42%20Beverley%20St/420956279_341553932120836_6510065877131399546_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/405506539_7206397782750245_3790921527991629855_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/410596409_24480086364968419_3265162272506884298_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/416996070_25577993245133194_1743908844713870305_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417028973_25668335872750715_4449124194916932334_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417084145_7249316455120623_6446019478767462285_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417084250_6992847394143525_9143039459607559308_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417125274_24767317229548693_3469006524305408163_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417159084_6787832141346575_3315687504344718260_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417264501_6948240728623598_814383685964250920_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/630%20Princess%20St/406925344_7073332062747614_1970589403061136666_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/630%20Princess%20St/419600980_7389577927767799_4511443589162453861_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/630%20Princess%20St/420536280_7014564711971368_7989907287922750493_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/630%20Princess%20St/422227455_7215618161863603_5997401127060306447_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (4, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/630%20Princess%20St/422693232_6778460868932277_5732882240215386565_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/487%20Brock%20St/379718227_7309960195710540_1459522285989104945_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/487%20Brock%20St/382483427_7111415975544483_3438644587236511192_n.jpg');
-INSERT INTO `pictures` (`PID`, `file_name`) VALUES (5, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/487%20Brock%20St/385796637_6546613352102540_3582619407499888739_n.jpg');
-COMMIT;
+--
+-- Dumping data for table `pictures`
+--
 
--- ----------------------------
--- Table structure for property
--- ----------------------------
-DROP TABLE IF EXISTS `property`;
+INSERT INTO `pictures` (`PID`, `file_name`) VALUES
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/422065609_2129267960757813_6523283802791891132_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/422615666_2129270637424212_4848413286391023737_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424589556_2129267987424477_5483036318190958751_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424660732_2129267984091144_6145162977533956175_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424660989_2129267957424480_289666872341173166_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424687299_2129267994091143_7047179514255385314_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424736058_2129267977424478_2610722601137708788_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424786516_2129267990757810_7085242218693598515_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424965808_2129267980757811_5299665170192949980_n.jpg'),
+(1, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/39%20Ellerbeck%20St/424990016_2129267997424476_6170454248064395425_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/405506539_7206397782750245_3790921527991629855_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/410596409_24480086364968419_3265162272506884298_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/416996070_25577993245133194_1743908844713870305_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417028973_25668335872750715_4449124194916932334_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417084145_7249316455120623_6446019478767462285_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417084250_6992847394143525_9143039459607559308_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417125274_24767317229548693_3469006524305408163_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417159084_6787832141346575_3315687504344718260_n.jpg'),
+(3, 'https://raw.githubusercontent.com/elaine-wu-02/CISC499_housing_P/main/public/assets/property%20pictures/163%20Union%20St/417264501_6948240728623598_814383685964250920_n.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `property`
+--
+
 CREATE TABLE `property` (
-  `PID` int NOT NULL AUTO_INCREMENT,
-  `listing_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `house_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `monthly_rent` int DEFAULT NULL,
-  `bedrooms` int DEFAULT NULL,
+  `PID` int(11) NOT NULL,
+  `listing_name` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `house_type` varchar(255) DEFAULT NULL,
+  `monthly_rent` int(11) DEFAULT NULL,
+  `bedrooms` int(11) DEFAULT NULL,
   `bathrooms` decimal(4,1) DEFAULT NULL,
   `parking` tinyint(1) DEFAULT NULL,
-  `laundry` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `laundry` varchar(255) DEFAULT NULL,
   `fenced_yard` tinyint(1) DEFAULT NULL,
-  `detached_or_semi` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `floor_number` int DEFAULT NULL,
+  `detached_or_semi` varchar(255) DEFAULT NULL,
+  `floor_number` int(11) DEFAULT NULL,
   `elevator` tinyint(1) DEFAULT NULL,
-  `number_of_offered_rooms` int DEFAULT NULL,
+  `number_of_offered_rooms` int(11) DEFAULT NULL,
   `private_kitchen` tinyint(1) DEFAULT NULL,
-  `furniture` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `furniture` varchar(255) DEFAULT NULL,
   `date_listed` date DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  PRIMARY KEY (`PID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+  `status` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of property
--- ----------------------------
-BEGIN;
-INSERT INTO `property` (`PID`, `listing_name`, `address`, `house_type`, `monthly_rent`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `fenced_yard`, `detached_or_semi`, `floor_number`, `elevator`, `number_of_offered_rooms`, `private_kitchen`, `furniture`, `date_listed`, `status`) VALUES (1, 'Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'Apartment', 6600, 6, 2.5, 0, 'In Unit', NULL, NULL, 2, 0, 6, 1, 'Bed frames, living room sofa, dining table, chairs', '2023-11-07', 'Available');
-INSERT INTO `property` (`PID`, `listing_name`, `address`, `house_type`, `monthly_rent`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `fenced_yard`, `detached_or_semi`, `floor_number`, `elevator`, `number_of_offered_rooms`, `private_kitchen`, `furniture`, `date_listed`, `status`) VALUES (2, 'Cozy room across from the pier', '42 Beverley St, Unit #3, Kingston, ON K7L 3Y4', 'Single Family Residence', 1195, 4, 1.0, 1, 'In Unit', 0, 'Detached', NULL, NULL, 1, 1, 'Bed, desk', '2023-11-13', 'Available');
-INSERT INTO `property` (`PID`, `listing_name`, `address`, `house_type`, `monthly_rent`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `fenced_yard`, `detached_or_semi`, `floor_number`, `elevator`, `number_of_offered_rooms`, `private_kitchen`, `furniture`, `date_listed`, `status`) VALUES (3, 'One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'Single Family Residence', 1127, 8, 4.0, 1, 'Shared', 1, 'Detached', NULL, NULL, 1, 0, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-01-12', 'Available');
-INSERT INTO `property` (`PID`, `listing_name`, `address`, `house_type`, `monthly_rent`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `fenced_yard`, `detached_or_semi`, `floor_number`, `elevator`, `number_of_offered_rooms`, `private_kitchen`, `furniture`, `date_listed`, `status`) VALUES (4, 'Newly renovated apartment', '630 Princess St, Kingston, ON K7L 1E3', 'Apartment', 2200, 2, 1.0, 1, 'In unit', NULL, NULL, 5, 1, 2, 1, 'None', '2024-01-11', 'Available');
-INSERT INTO `property` (`PID`, `listing_name`, `address`, `house_type`, `monthly_rent`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `fenced_yard`, `detached_or_semi`, `floor_number`, `elevator`, `number_of_offered_rooms`, `private_kitchen`, `furniture`, `date_listed`, `status`) VALUES (5, 'Clean, modern, private room', '487 Brock St, Kingston, ON K7L 1T7', 'Townhouse', 750, 7, 3.0, 1, 'Shared', 0, 'Semi', NULL, NULL, 1, 0, 'Bed, desk, chair, dressers, nightstand, lamp', '2024-02-11', 'Available');
-COMMIT;
+--
+-- Dumping data for table `property`
+--
 
--- ----------------------------
--- Table structure for rental_agreement
--- ----------------------------
-DROP TABLE IF EXISTS `rental_agreement`;
+INSERT INTO `property` (`PID`, `listing_name`, `address`, `house_type`, `monthly_rent`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `fenced_yard`, `detached_or_semi`, `floor_number`, `elevator`, `number_of_offered_rooms`, `private_kitchen`, `furniture`, `date_listed`, `status`, `user_id`) VALUES
+(1, 'Brand new apartment', '39 Ellerbeck St, Kingston, ON K7L 4H5', 'house', 6600, 3, 1.0, 0, 'ensuite', NULL, NULL, 2, 0, 3, 1, 'Bed frames, living room sofa, dining table, chairs', '2023-11-07', 'Available', 7),
+(3, 'One bedroom near Victoria Hall', '163 Union St, Kingston, ON K7L 2P4', 'apartment', 1127, 1, 1.0, 1, 'Shared', 1, 'Detached', NULL, NULL, 1, 0, 'Bed, desk, chair, mini-dressers, corner couch, floor lamp, mini fridge', '2024-01-12', 'Available', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rental_agreement`
+--
+
 CREATE TABLE `rental_agreement` (
-  `PID` int NOT NULL,
-  `GID` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `PID` int(11) NOT NULL,
+  `GID` varchar(4) NOT NULL,
   `sign_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `start_date` date DEFAULT NULL,
-  `monthly_rent` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`PID`,`GID`) USING BTREE,
-  KEY `GID` (`GID`) USING BTREE,
-  CONSTRAINT `rental_agreement_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `rental_agreement_ibfk_2` FOREIGN KEY (`GID`) REFERENCES `rental_group` (`GID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `monthly_rent` decimal(10,0) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of rental_agreement
--- ----------------------------
-BEGIN;
-COMMIT;
+-- --------------------------------------------------------
 
--- ----------------------------
--- Table structure for rental_group
--- ----------------------------
-DROP TABLE IF EXISTS `rental_group`;
+--
+-- Table structure for table `rental_group`
+--
+
 CREATE TABLE `rental_group` (
-  `GID` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `preferred_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `bedrooms` int DEFAULT NULL,
+  `GID` varchar(4) NOT NULL,
+  `house_type` varchar(255) DEFAULT NULL,
+  `bedrooms` int(11) DEFAULT NULL,
   `bathrooms` decimal(4,1) DEFAULT NULL,
   `parking` tinyint(1) DEFAULT NULL,
-  `laundry` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `range_lower_bound` int DEFAULT NULL,
-  `range_upper_bound` int DEFAULT NULL,
-  `accessibility` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`GID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `laundry` varchar(255) DEFAULT NULL,
+  `range_lower_bound` int(11) DEFAULT NULL,
+  `range_upper_bound` int(11) DEFAULT NULL,
+  `accessibility` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of rental_group
--- ----------------------------
-BEGIN;
-INSERT INTO `rental_group` (`GID`, `preferred_type`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `range_lower_bound`, `range_upper_bound`, `accessibility`) VALUES ('0000', 'apartment', 2, 2.0, 0, 'ensuite', NULL, NULL, 0);
-INSERT INTO `rental_group` (`GID`, `preferred_type`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `range_lower_bound`, `range_upper_bound`, `accessibility`) VALUES ('0001', 'house', 3, 1.0, 1, 'shared', NULL, NULL, 1);
-COMMIT;
+--
+-- Dumping data for table `rental_group`
+--
 
--- ----------------------------
--- Table structure for students
--- ----------------------------
-DROP TABLE IF EXISTS `students`;
+INSERT INTO `rental_group` (`GID`, `house_type`, `bedrooms`, `bathrooms`, `parking`, `laundry`, `range_lower_bound`, `range_upper_bound`, `accessibility`) VALUES
+('0000', 'apartment', 1, 1.0, 0, 'ensuite', NULL, NULL, 0),
+('0001', 'house', 3, 1.0, 1, 'shared', NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
 CREATE TABLE `students` (
-  `UID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `first_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `last_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `phone_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `student_id` bigint DEFAULT NULL,
-  `year_of_graduation` int DEFAULT NULL,
-  `program` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  PRIMARY KEY (`UID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `UID` varchar(255) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `student_id` bigint(20) DEFAULT NULL,
+  `year_of_graduation` int(11) DEFAULT NULL,
+  `program` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of students
--- ----------------------------
-BEGIN;
-INSERT INTO `students` (`UID`, `first_name`, `last_name`, `phone_number`, `address`, `student_id`, `year_of_graduation`, `program`) VALUES ('aa000', 'abc', 'ABC', '3433433433', '1 Sample Street, Kingston, ON', 20240213, 2024, 'Computing');
-INSERT INTO `students` (`UID`, `first_name`, `last_name`, `phone_number`, `address`, `student_id`, `year_of_graduation`, `program`) VALUES ('aa001', 'abd', 'ABD', '3433433434', '2 Sample Street, Kingston, ON', 20240214, 2025, 'Health Science');
-INSERT INTO `students` (`UID`, `first_name`, `last_name`, `phone_number`, `address`, `student_id`, `year_of_graduation`, `program`) VALUES ('aa002', 'abe', 'ABE', '3433433435', '3 Sample Street, Kingston, ON', 20240215, 2026, 'Commerce');
-INSERT INTO `students` (`UID`, `first_name`, `last_name`, `phone_number`, `address`, `student_id`, `year_of_graduation`, `program`) VALUES ('aa003', 'abf', 'ABF', '3433433436', '4 Sample Street, Kingston, ON', 20240216, 2028, 'Engineering');
-INSERT INTO `students` (`UID`, `first_name`, `last_name`, `phone_number`, `address`, `student_id`, `year_of_graduation`, `program`) VALUES ('aa004', 'abg', 'ABG', '3433433437', '5 Sample Street, Kingston, ON', 20240217, 2027, 'Nursing');
-COMMIT;
+--
+-- Dumping data for table `students`
+--
 
--- ----------------------------
--- Table structure for users
--- ----------------------------
-DROP TABLE IF EXISTS `users`;
+INSERT INTO `students` (`UID`, `first_name`, `last_name`, `phone_number`, `address`, `student_id`, `year_of_graduation`, `program`) VALUES
+('6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('8', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('aa000', 'abc', 'ABC', '3433433433', '1 Sample Street, Kingston, ON', 20240213, 2024, 'Computing'),
+('aa001', 'abd', 'ABD', '3433433434', '2 Sample Street, Kingston, ON', 20240214, 2025, 'Health Science');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
 CREATE TABLE `users` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `last_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `username` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '',
-  `password` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+  `id` int(10) UNSIGNED NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `username` varchar(200) DEFAULT '',
+  `password` varchar(200) DEFAULT '',
+  `user_type` tinyint(1) DEFAULT 1 COMMENT '1=student,2=owner'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- Records of users
--- ----------------------------
-BEGIN;
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `password`) VALUES (1, '123', '123', '123', '123');
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `password`, `user_type`) VALUES
+(2, 'Andy', 'Alex', 'andyalex', '12345678', 1),
+(3, '234', '234', '2342', '234234234234', 1),
+(5, NULL, NULL, 'test', '123456', 1),
+(6, NULL, NULL, 'test111', '1', 1),
+(7, NULL, NULL, 'owner1', '123456', 2),
+(8, NULL, NULL, 'student1', '12345678', 1),
+(9, NULL, NULL, '12341234', '12341234', 2);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `credentials`
+--
+ALTER TABLE `credentials`
+  ADD PRIMARY KEY (`UID`) USING BTREE;
+
+--
+-- Indexes for table `make_group`
+--
+ALTER TABLE `make_group`
+  ADD PRIMARY KEY (`UID`,`GID`) USING BTREE,
+  ADD KEY `GID` (`GID`) USING BTREE;
+
+--
+-- Indexes for table `manage`
+--
+ALTER TABLE `manage`
+  ADD PRIMARY KEY (`PID`,`phone_number`) USING BTREE,
+  ADD KEY `phone_number` (`phone_number`) USING BTREE;
+
+--
+-- Indexes for table `manager`
+--
+ALTER TABLE `manager`
+  ADD PRIMARY KEY (`phone_number`) USING BTREE;
+
+--
+-- Indexes for table `own`
+--
+ALTER TABLE `own`
+  ADD PRIMARY KEY (`PID`,`OID`) USING BTREE,
+  ADD KEY `OID` (`OID`) USING BTREE;
+
+--
+-- Indexes for table `owner`
+--
+ALTER TABLE `owner`
+  ADD PRIMARY KEY (`OID`) USING BTREE,
+  ADD UNIQUE KEY `phone_number` (`phone_number`) USING BTREE;
+
+--
+-- Indexes for table `pictures`
+--
+ALTER TABLE `pictures`
+  ADD PRIMARY KEY (`PID`,`file_name`) USING BTREE;
+
+--
+-- Indexes for table `property`
+--
+ALTER TABLE `property`
+  ADD PRIMARY KEY (`PID`) USING BTREE;
+
+--
+-- Indexes for table `rental_agreement`
+--
+ALTER TABLE `rental_agreement`
+  ADD PRIMARY KEY (`PID`,`GID`) USING BTREE,
+  ADD KEY `GID` (`GID`) USING BTREE;
+
+--
+-- Indexes for table `rental_group`
+--
+ALTER TABLE `rental_group`
+  ADD PRIMARY KEY (`GID`) USING BTREE;
+
+--
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`UID`) USING BTREE;
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `property`
+--
+ALTER TABLE `property`
+  MODIFY `PID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `make_group`
+--
+ALTER TABLE `make_group`
+  ADD CONSTRAINT `make_group_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `students` (`UID`),
+  ADD CONSTRAINT `make_group_ibfk_2` FOREIGN KEY (`GID`) REFERENCES `rental_group` (`GID`);
+
+--
+-- Constraints for table `manage`
+--
+ALTER TABLE `manage`
+  ADD CONSTRAINT `manage_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`),
+  ADD CONSTRAINT `manage_ibfk_2` FOREIGN KEY (`phone_number`) REFERENCES `manager` (`phone_number`);
+
+--
+-- Constraints for table `own`
+--
+ALTER TABLE `own`
+  ADD CONSTRAINT `own_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`),
+  ADD CONSTRAINT `own_ibfk_2` FOREIGN KEY (`OID`) REFERENCES `owner` (`OID`);
+
+--
+-- Constraints for table `pictures`
+--
+ALTER TABLE `pictures`
+  ADD CONSTRAINT `pictures_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`);
+
+--
+-- Constraints for table `rental_agreement`
+--
+ALTER TABLE `rental_agreement`
+  ADD CONSTRAINT `rental_agreement_ibfk_1` FOREIGN KEY (`PID`) REFERENCES `property` (`PID`),
+  ADD CONSTRAINT `rental_agreement_ibfk_2` FOREIGN KEY (`GID`) REFERENCES `rental_group` (`GID`);
 COMMIT;
 
-SET FOREIGN_KEY_CHECKS = 1;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

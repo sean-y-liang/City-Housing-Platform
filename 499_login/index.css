@@ -1,15 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    background-image: url('background.jpg');
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
 .dashboard-container {
     width: 100%;
     max-width: 960px;
     margin: 0 auto;
     padding: 2rem;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-container h2 {
     text-align: center;
-    color: #333;
+    color: rgb(215, 215, 2);
     font-size: 2rem;
     margin-bottom: 1.5rem;
     font-weight: bold;
@@ -18,7 +26,7 @@
 .dashboard-container nav {
     display: flex;
     justify-content: space-around;
-    background-color: #333;
+    background-color: #256cb3;
 }
 
 .dashboard-container nav ul {
@@ -40,48 +48,54 @@
 }
 
 .dashboard-container nav ul li a:hover {
-    background-color: #555;
+    background-color: rgb(215, 215, 2);
 }
 
-/* CSS 样式 */
 table {
+    background-color: #256cb3;
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 2rem;
+    margin: 2rem 0 2rem;
 }
 th,
 td {
     padding: 12px;
     text-align: left;
     vertical-align: top;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid;
 }
 th {
-    background-color: #f2f2f2;
     font-weight: bold;
     color: #333;
 }
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
+
 tbody tr:hover {
-    background-color: #ebebeb;
+    background-color: rgb(215, 215, 2);
 }
 .action-buttons button {
-    background-color: #f2f2f2;
+    background-color: #37bc77;
     border: none;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 8px 10px;
     margin-right: 5px;
 }
 .action-buttons button:hover {
-    background-color: #e0e0e0;
+    background-color: #224e42;
 }
 
 .header {
     position: sticky;
     top: 0;
-    background-color: #f2f2f2;
     padding: 10px;
     text-align: right;
+}
+
+button{
+    border-color: rgb(174, 53, 53);
+    background-color: #256cb3;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(215, 215, 2);
 }

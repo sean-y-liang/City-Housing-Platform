@@ -1,10 +1,11 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     background-color: #f0f0f0;
+    background-image: url('background.jpg');
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
 }
 
 .login-container {
@@ -12,6 +13,8 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 30px auto;
 }
 
 .form-group {
@@ -24,7 +27,7 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],select {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -36,7 +39,7 @@ input[type="password"] {
 
 button[type="submit"] {
     width: 100%;
-    background-color: #4CAF50;
+    background-color: #256cb3;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -46,5 +49,34 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #16406b;
+}
+
+.banner {
+    
+    color: rgb(215, 215, 2);
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 2em;
+    align-items: first baseline;
+}
+
+.logo {
+    height: 135px;
+    width: 135px;
+}
+
+button{
+    border-color: rgb(174, 53, 53);
+    background-color: #256cb3;
+}
+
+.blink {
+    text-decoration: none;
+    color: rgb(215, 215, 2);
 }

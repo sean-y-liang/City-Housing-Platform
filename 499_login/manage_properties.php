@@ -7,6 +7,7 @@
     <title>Property Management</title>
 </head>
 <body>
+    <button><a href="adm_dash.html">Return</a></button>
     <table>
         <thead>
             <tr>

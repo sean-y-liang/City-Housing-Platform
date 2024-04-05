@@ -2,7 +2,7 @@
 require 'init.php';
 if(isset($_GET['id'])) {
     $userId = $_GET['id'];
-   $sql = "SELECT * FROM users WHERE id = {$userId}";
+   $sql = "SELECT * FROM manager WHERE phone_number = {$userId}";
    $result = $mysqli->query($sql);
     $userData = $result->fetch_assoc();
 }
@@ -62,13 +62,13 @@ if(isset($_GET['id'])) {
         input[type="text"]:focus,
         input[type="password"]:focus {
             outline: none;
-            border-color: #007bff;
+            border-color: #4CAF50;
         }
 
         button {
             width: 100%;
             height: 40px;
-            background-color: #007bff;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 3px;
@@ -78,7 +78,7 @@ if(isset($_GET['id'])) {
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #4CAF50;
         }
     </style>
 </head>

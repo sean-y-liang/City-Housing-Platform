@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Password</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button><a class="blink" href="login.html">Return</a></button>
+  <div class="banner">
+    <img src="kst_logo.png" alt="Logo" class="logo">
+    <h1>Welcome to Rent Here!</h1>
+  </div>
+<div class="login-container">
+  <form action="change_pwd.php" method="post">
+    <h2>Reset Your Password</h2>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Old Password:</label>
+      <input type="password" id="password" name="old_password" required>
+    </div>
+    <div class="form-group">
+      <label for="password">New Password:</label>
+      <input type="password" id="new_password" name="new_password" required>
+    </div>
+    <button type="submit">Reset</button>
+  </form>
+</div>
+</body>
+</html>

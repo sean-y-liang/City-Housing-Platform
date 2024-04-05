@@ -1,14 +1,16 @@
 <?php
 require 'init.php';
 
-// firstname、lastname、username、password
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
+
 $username = $_POST['username'];
 $password = $_POST['password'];
+$user_type = $_POST['user_type'];
 
-$sql = "SELECT * FROM `users` WHERE `username` = '$username' limit 1";
-
+if ($user_type == 3){
+    $sql = "SELECT * FROM `manager` WHERE `phone_number` = '$username' limit 1";
+}else{
+    $sql = "SELECT * FROM `users` WHERE `username` = '$username' limit 1";
+}
 
 $result = $mysqli->query($sql);
 
@@ -17,7 +19,22 @@ if($result->num_rows > 0){
     exit();
 }
 header('Content-type:text/html;charset=utf-8');
-$sql = "INSERT INTO `users` (`first_name`, `last_name`,`username`,`password`) VALUES ('$firstname', '$lastname','$username','$password');";
-$rs = $mysqli->query($sql);
+if ($user_type == 3){
+    $sql = "INSERT INTO `manager` (`phone_number`,`password`) VALUES ('$username','$password');";
+    $rs = $mysqli->query($sql);
+
+}else{
+    $sql = "INSERT INTO `users` (`username`, `password`,`user_type`) VALUES ('$username', '$password',$user_type);";
+    var_dump($sql);exit();
+    $rs  = $mysqli->query($sql);
+    $id = $mysqli->insert_id;
+    if ($user_type == '1') {// student
+        $sql = "INSERT INTO `students` (`UID`) VALUES ('$id');";
+    } else {
+        $sql = "INSERT INTO `owner` (`OID`) VALUES ('$id');";
+    }
+    $rs  = $mysqli->query($sql);
+}
+
 echo "<script>javascript:alert('create successful!');location.href='manage_users.php';</script>";
 ?>
