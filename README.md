@@ -1,6 +1,6 @@
 # City of Kingston Housing Match
 
-This undergraduate capstone project, developed for CISC 499 at Queen's University under Prof. Wendy Powley, aims to streamline the housing search process in the City of Kingston. It connects students with landlords through an interactive platform, creating an intuitive house hunting experience.
+This project aims to streamline the housing search process in the City of Kingston. It connects students with landlords through an interactive platform, creating an intuitive house hunting experience.
 
 ## Getting Started
 
