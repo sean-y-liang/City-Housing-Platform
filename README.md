@@ -32,11 +32,10 @@ Install all dependencies by navigating to the `/server` directory and running:
 
 ```Bash
 npm install
-npm install express cors mysql2
 ```
 
 #### Database Configuration
-Create your database with the provided `db.sql` script. Update `/server/database.sql` with your MySQL credentials:
+Create your example database with the provided `db.sql` script. Update `/server/database.sql` with your MySQL credentials:
 
 ```JavaScript
 const db = mysql.createConnection({
